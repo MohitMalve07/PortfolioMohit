@@ -6,7 +6,7 @@
     <title>Contact - Mohit Malve</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
@@ -33,29 +33,74 @@
     <!-- Contact Section -->
     <section class="contact">
         <div class="container">
-            <h2 class="section-title">Contact Me</h2>
-            <div class="contact-container">
-                <p>Feel free to reach out to me for any inquiries or opportunities.</p>
-                
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <p>malve.mohit1234@gmail.com</p>
-                    </div>
+            <div class="hud-panel" data-label="Signal Terminal">
+                <div class="hud-panel__corners"></div>
+                <div class="hud-panel__body">
                     
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <p>mohit.22211407@viit.ac.in</p>
+                    <!-- Terminal Meta Row (system info + animated bars) -->
+                    <div class="terminal-meta-row">
+                        <div class="system-info">SYS V1.2.0 | TERMINAL ID MM-DEV-23</div>
+                        <div class="signal-indicator">
+                            <div class="signal-bars">
+                                <span class="bar bar-1"></span>
+                                <span class="bar bar-2"></span>
+                                <span class="bar bar-3"></span>
+                                <span class="bar bar-4"></span>
+                            </div>
+                            <span class="signal-status">SIGNAL ONLINE</span>
+                        </div>
                     </div>
+
+                    <!-- Contact Form -->
+                    <form class="contact-terminal-form" action="https://formspree.io/f/mqkrbglg" method="POST">
+                        <div class="terminal-label">CONTACT TERMINAL</div>
+                        
+                        <div class="terminal-screen-wrapper">
+                            <div class="terminal-prompt-line">
+                                <span class="terminal-prompt-char">&gt;</span>
+                                <textarea class="terminal-textarea" name="message" required placeholder="INCOMING TRANSMISSION... // SEND A SIGNAL // ENTER MESSAGE BELOW:" rows="5"></textarea>
+                            </div>
+                            <div class="terminal-cursor-line"><span class="textarea-blinking-cursor">_</span></div>
+                        </div>
+
+                        <div class="terminal-input-group">
+                            <span class="input-prompt">&gt; ENTER SENDER IDENTIFIER (NAME):</span>
+                            <input type="text" name="name" required class="terminal-input" placeholder="[IDENTIFIER]">
+                        </div>
+
+                        <div class="terminal-input-group">
+                            <span class="input-prompt">&gt; ENTER TRANSMISSION SECURE ROUTE (EMAIL):</span>
+                            <input type="email" name="email" required class="terminal-input" placeholder="[SECURE_ROUTE]">
+                        </div>
+
+                        <button type="submit" class="send-signal-btn">
+                            <i class="fas fa-broadcast-tower"></i> SEND SIGNAL
+                        </button>
+                    </form>
                     
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/mohit-malve/" target="_blank" title="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://github.com/MohitMalve07 " target="_blank" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
+                    <!-- Secondary Social Node Channels -->
+                    <div class="contact-container" style="border: none; padding: 20px 0 0 0; margin-top: 24px; box-shadow: none; background: transparent;">
+                        <p style="font-family: monospace; font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; border: none; padding: 0;">// OPTIONAL DIRECT LINK CHANNELS //</p>
+                        <div class="contact-info" style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                            <div class="contact-item" style="border: none; padding: 0; background: transparent; box-shadow: none; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-envelope" style="color: #00FFFF;"></i>
+                                <span style="font-family: monospace; font-size: 12px;">malve.mohit1234@gmail.com</span>
+                            </div>
+                            <div class="contact-item" style="border: none; padding: 0; background: transparent; box-shadow: none; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-envelope" style="color: #00FFFF;"></i>
+                                <span style="font-family: monospace; font-size: 12px;">mohit.22211407@viit.ac.in</span>
+                            </div>
+                            <div class="social-links" style="margin-left: auto; display: flex; gap: 12px;">
+                                <a href="https://www.linkedin.com/in/mohit-malve/" target="_blank" title="LinkedIn" style="border: 1px solid rgba(0, 255, 255, 0.2); padding: 8px; border-radius: 4px; display: inline-flex; justify-content: center; align-items: center; width: 34px; height: 34px; color: #00FFFF; transition: all 0.3s ease;">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="https://github.com/MohitMalve07" target="_blank" title="GitHub" style="border: 1px solid rgba(0, 255, 255, 0.2); padding: 8px; border-radius: 4px; display: inline-flex; justify-content: center; align-items: center; width: 34px; height: 34px; color: #00FFFF; transition: all 0.3s ease;">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

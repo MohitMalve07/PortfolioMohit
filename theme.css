@@ -34,11 +34,11 @@
 
 /* Project Card */
 .project-card {
-    background: rgba(10, 20, 30, 0.8);
-    border: 1px solid #00f;
+    background: #0D1526;
+    border: 1px solid rgba(0, 255, 255, 0.2);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 100, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: fadeIn 1s ease-out;
 }
@@ -101,9 +101,9 @@
 
 /* Global Body and Background */
 body {
-    background-color: #0d0d0d;
+    background-color: #0A0E1A;
     color: #e0e0e0;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Exo 2', sans-serif;
     margin: 0;
     line-height: 1.6;
     position: relative;
@@ -120,10 +120,10 @@ body {
 
 /* Header and Navigation */
 header {
-    background: rgba(10, 10, 20, 0.9);
+    background: rgba(10, 14, 26, 0.9);
     padding: 15px 0;
-    border-bottom: 1px solid #00f;
-    box-shadow: 0 0 15px rgba(0, 0, 255, 0.5);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
 
 .navbar {
@@ -210,13 +210,13 @@ header {
 
 /* Footer */
 footer {
-    background: rgba(10, 10, 20, 0.9);
+    background: rgba(10, 14, 26, 0.9);
     color: #888;
     text-align: center;
     padding: 20px 0;
-    border-top: 1px solid #00f;
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
     margin-top: 40px;
-    box-shadow: 0 0 15px rgba(0, 0, 255, 0.5);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
 
 /* AI Projects Specific Styling */

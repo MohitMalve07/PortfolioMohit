@@ -6,9 +6,28 @@
     <title>Mohit Malve - Game Developer & Creator</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (sessionStorage.getItem('boot-played')) {
+                document.documentElement.classList.add('boot-played');
+            }
+        } catch (e) {
+            console.error('SessionStorage blocked:', e);
+        }
+    </script>
 </head>
 <body>
+    <!-- Boot Sequence Overlay -->
+    <div id="boot-overlay" class="boot-overlay">
+        <div class="boot-content">
+            <p class="boot-line" id="boot-line-1"></p>
+            <p class="boot-line" id="boot-line-2"></p>
+            <p class="boot-line" id="boot-line-3"></p>
+            <p class="boot-line" id="boot-line-4"></p>
+        </div>
+    </div>
+
     <div class="background-animation"></div>
     <div class="background-animation"></div>
     <!-- Header -->
@@ -32,273 +51,746 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero / Player Profile Section -->
     <section class="hero" id="home">
         <div class="container">
-            <div class="hero-content">
-                <h1>Mohit Malve</h1>
-                <p>Computer Engineer and Game Developer</p>
-                <button onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'});">About Me</button>
-                <button onclick="window.location.href='projects.html'">View Projects</button>
+            <div class="hero-profile hud-panel" data-label="Player Profile">
+                <div class="hud-panel__corners"></div>
+                <div class="hud-panel__body">
+
+                    <!-- Top row: Avatar + Info + LVL badge -->
+                    <div class="hero-top">
+                        <div class="hero-avatar-frame">
+                            <img src="Images/Sticker.png" alt="Mohit Malve" class="hero-avatar-img">
+                        </div>
+
+                        <div class="hero-info">
+                            <div class="hero-name-row">
+                                <h1 class="hero-name">Mohit Malve</h1>
+                                <div class="lvl-badge">
+                                    <span class="lvl-label">LVL</span>
+                                    <span class="lvl-number">23</span>
+                                </div>
+                            </div>
+                            <p class="hero-subtitle">Game Dev Mage</p>
+
+                            <!-- XP Bar -->
+                            <div class="xp-bar-wrapper">
+                                <span class="xp-label">XP</span>
+                                <div class="xp-bar-track">
+                                    <div class="xp-bar-fill" style="width: 68.4%"></div>
+                                </div>
+                                <span class="xp-value">6,840 / 10,000</span>
+                            </div>
+
+                            <!-- Skill Bars -->
+                            <div class="hero-skill-bars">
+                                <div class="hero-skill-row">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span class="hero-skill-label">Unity Engine</span>
+                                    <div class="hero-skill-track"><div class="hero-skill-fill" style="width:88%"></div></div>
+                                    <span class="hero-skill-pct">88%</span>
+                                </div>
+                                <div class="hero-skill-row">
+                                    <i class="fab fa-python"></i>
+                                    <span class="hero-skill-label">Python</span>
+                                    <div class="hero-skill-track"><div class="hero-skill-fill" style="width:70%"></div></div>
+                                    <span class="hero-skill-pct">70%</span>
+                                </div>
+                                <div class="hero-skill-row">
+                                    <i class="fas fa-fire"></i>
+                                    <span class="hero-skill-label">PyTorch</span>
+                                    <div class="hero-skill-track"><div class="hero-skill-fill" style="width:60%"></div></div>
+                                    <span class="hero-skill-pct">60%</span>
+                                </div>
+                                <div class="hero-skill-row">
+                                    <i class="fas fa-network-wired"></i>
+                                    <span class="hero-skill-label">Multiplayer Networking</span>
+                                    <div class="hero-skill-track"><div class="hero-skill-fill" style="width:80%"></div></div>
+                                    <span class="hero-skill-pct">80%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terminal Log -->
+                    <div class="hero-terminal">
+                        <p class="hero-terminal-line" id="hero-typewriter"></p>
+                        <span class="hero-terminal-cursor">_</span>
+                    </div>
+
+                    <!-- Inspect Profile Button -->
+                    <button class="inspect-btn" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'});">
+                        Inspect Profile
+                    </button>
+
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="about" id="about">
+    <!-- HUD Dashboard -->
+    <section class="hud-dashboard" id="about">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                    <div class="grid-item grid-item-image">
-                        <img src="Images/Sticker.png" alt="Mohit Malve's profile sticker" class="about-sticker">
-                    </div>
-                    <div class="grid-item grid-item-who-i-am">
-                        <h3>Who I Am</h3>
-                        <p>Motivated BTech Computer Engineering student passionate about building immersive experiences using programming, design, and art.</p>
-                        <p>Passionate AI/ML enthusiast with strong Python skills, hands-on project experience, and a solid foundation in data science, deep learning, and NLP.</p>
-                    </div>
-                    <div class="grid-item grid-item-education">
-                        <h4>Education</h4>
-                        <p><strong>BTech in Computer Engineering</strong></p>
-                        <p>Vishwakarma Institute of Information Technology - 2026</p>               
-                    </div>
-                    <div class="grid-item grid-item-experience">
-                        <h4>Experience</h4>
-                        <p><strong>Game Developer Intern</strong> | Smart Cookie Rewards</p>
-                        <ul>
-                            <li>Assisted in coding and implementing game features</li>
-                            <li>Fixed bugs and improved UI responsiveness</li>
-                            <li>Collaborated with designers and artists to integrate assets</li>
-                            <li>Refined gameplay mechanics</li>
-                        </ul>
-                    </div>
-                </div>
-        </div>
-    </section>
+            <div class="hud-grid">
 
-    <!-- Skills Section -->
-    <section class="skills" id="skills">
-        <div class="container">
-            <h2 class="section-title">Skills</h2>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <h3>Programming Languages</h3>
-                    <div class="skill-cards">
-                        <div class="skill-card">
-                            <i class="fab fa-python"></i>
-                            <span>Python</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-code"></i>
-                            <span>C</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-code"></i>
-                            <span>C++</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fab fa-java"></i>
-                            <span>Java</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fab fa-microsoft"></i>
-                            <span>C#</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-database"></i>
-                            <span>SQL</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-database"></i>
-                            <span>PL/SQL</span>
+                <!-- ========== 1. PLAYER PROFILE ========== -->
+                <div class="hud-panel" data-label="Player Profile" id="player-profile">
+                    <div class="hud-panel__corners"></div>
+                    <div class="hud-panel__body">
+                        <div class="profile-layout">
+                            <div class="profile-avatar">
+                                <img src="Images/Sticker.png" alt="Mohit Malve's profile sticker" class="about-sticker">
+                            </div>
+                            <div class="profile-info">
+                                <h3>Mohit Malve</h3>
+                                <p class="profile-class">Game Dev Mage</p>
+                                <p>Motivated BTech Computer Engineering student passionate about building immersive experiences using programming, design, and art.</p>
+                                <p>Passionate AI/ML enthusiast with strong Python skills, hands-on project experience, and a solid foundation in data science, deep learning, and NLP.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="skill-category">
-                    <h3>Game Development</h3>
-                    <div class="skill-cards">
-                        <div class="skill-card">
-                            <i class="fas fa-gamepad"></i>
-                            <span>Unity</span>
+
+                <!-- ========== 2. QUEST LOG ========== -->
+                <div class="hud-panel" data-label="Quest Log" id="quest-log">
+                    <div class="hud-panel__corners"></div>
+                    <div class="hud-panel__body">
+                        <div class="quest-item">
+                            <h4>Primary Quest</h4>
+                            <p><strong>BTech in Computer Engineering</strong></p>
+                            <p>Vishwakarma Institute of Information Technology — 2026</p>
                         </div>
-                        <div class="skill-card">
-                            <i class="fas fa-gamepad"></i>
-                            <span>GameMaker</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-cubes"></i>
-                            <span>ProBuilder</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-puzzle-piece"></i>
-                            <span>Asset Integration</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-code"></i>
-                            <span>Gameplay Programming</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-robot"></i>
-                            <span>AI Programming</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-atom"></i>
-                            <span>Physics Simulation</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-window-maximize"></i>
-                            <span>Game UI</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Optimization</span>
+                        <div class="quest-item">
+                            <h4>Side Quest — Internship</h4>
+                            <p><strong>Game Developer Intern</strong> | Smart Cookie Rewards</p>
+                            <ul>
+                                <li>Assisted in coding and implementing game features</li>
+                                <li>Fixed bugs and improved UI responsiveness</li>
+                                <li>Collaborated with designers and artists to integrate assets</li>
+                                <li>Refined gameplay mechanics</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                
-                <div class="skill-category">
-                    <h3>Machine Learning/AI</h3>
-                    <div class="skill-cards">
-                        <div class="skill-card">
-                            <i class="fas fa-brain"></i>
-                            <span>Supervised Learning</span>
+
+                <!-- ========== 3. ARSENAL ========== -->
+                <div class="hud-panel hud-panel--wide" data-label="Arsenal" id="skills">
+                    <div class="hud-panel__corners"></div>
+                    <div class="hud-panel__body">
+                        <!-- Category Tabs -->
+                        <div class="arsenal-tabs">
+                            <button class="arsenal-tab active" data-tab="offensive">Offensive</button>
+                            <button class="arsenal-tab" data-tab="defensive">Defensive</button>
+                            <button class="arsenal-tab" data-tab="utility">Utility</button>
+                            <button class="arsenal-tab" data-tab="specialization">Specialization</button>
                         </div>
-                        <div class="skill-card">
-                            <i class="fas fa-brain"></i>
-                            <span>Unsupervised Learning</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-cogs"></i>
-                            <span>Feature Engineering</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Model Evaluation</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-sync-alt"></i>
-                            <span>Cross-Validation</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-sliders-h"></i>
-                            <span>Hyperparameter Tuning</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-rocket"></i>
-                            <span>Model Deployment</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-network-wired"></i>
-                            <span>Neural Networks</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-image"></i>
-                            <span>Image Classification</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-object-group"></i>
-                            <span>Object Detection</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span>Transfer Learning</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-language"></i>
-                            <span>NLP</span>
+
+                        <!-- 2-column Grid -->
+                        <div class="arsenal-grid">
+                            <!-- ================= OFFENSIVE SKILLS ================= -->
+                            <div class="arsenal-card" data-category="offensive">
+                                <img src="Images/weapon_sword.png" alt="C# Pixel Sword" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">C# (C Sharp)</h4>
+                                    <span class="arsenal-subtitle">Scripting Language</span>
+                                    <span class="arsenal-metaphor">Pixel Sword</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 88%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">88%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="offensive">
+                                <img src="Images/weapon_sword.png" alt="Unity Forge Hammer" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Unity Engine</h4>
+                                    <span class="arsenal-subtitle">Game Engine</span>
+                                    <span class="arsenal-metaphor">Forge Engine Hammer</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 90%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">90%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="offensive">
+                                <img src="Images/weapon_sword.png" alt="Gameplay Programming Kinetic Blade" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Gameplay Programming</h4>
+                                    <span class="arsenal-subtitle">Core Game Loop Developer</span>
+                                    <span class="arsenal-metaphor">Kinetic Blade</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 85%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">85%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="offensive">
+                                <img src="Images/weapon_sword.png" alt="Python Venomous Dagger" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Python</h4>
+                                    <span class="arsenal-subtitle">Scripting & AI Language</span>
+                                    <span class="arsenal-metaphor">Venomous Dagger</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 75%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">75%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="offensive">
+                                <img src="Images/weapon_sword.png" alt="PyTorch Synaptic Rifle" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">PyTorch</h4>
+                                    <span class="arsenal-subtitle">Deep Learning Engine</span>
+                                    <span class="arsenal-metaphor">Synaptic Laser Rifle</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 70%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">70%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="offensive">
+                                <img src="Images/weapon_sword.png" alt="AI Programming Sentry Turret" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">AI Programming</h4>
+                                    <span class="arsenal-subtitle">Autonomous Agent Logic</span>
+                                    <span class="arsenal-metaphor">Sentry Turret</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 80%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================= DEFENSIVE SKILLS ================= -->
+                            <div class="arsenal-card" data-category="defensive" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_shield.png" alt="Git & GitHub Shield" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Git & GitHub</h4>
+                                    <span class="arsenal-subtitle">Version Control</span>
+                                    <span class="arsenal-metaphor">Aegis Firewall Shield</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 85%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">85%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="defensive" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_shield.png" alt="Optimization Suture Kit" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Optimization</h4>
+                                    <span class="arsenal-subtitle">Performance Profiling</span>
+                                    <span class="arsenal-metaphor">Nano-Suture Kit</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 80%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="defensive" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_shield.png" alt="Model Evaluation Goggles" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Model Evaluation</h4>
+                                    <span class="arsenal-subtitle">Metric Specialist</span>
+                                    <span class="arsenal-metaphor">Scanner Goggles</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 75%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">75%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="defensive" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_shield.png" alt="Cross-Validation Ward" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Cross-Validation</h4>
+                                    <span class="arsenal-subtitle">Validation Strategy</span>
+                                    <span class="arsenal-metaphor">Sentinel Ward</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 70%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">70%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="defensive" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_shield.png" alt="Hyperparameter Tuning Calipers" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Hyperparameter Tuning</h4>
+                                    <span class="arsenal-subtitle">Calibration & Optimization</span>
+                                    <span class="arsenal-metaphor">Calibration Calipers</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 75%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">75%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="defensive" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_shield.png" alt="C++ Native Shield" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">C++ (C Plus Plus)</h4>
+                                    <span class="arsenal-subtitle">Native Language</span>
+                                    <span class="arsenal-metaphor">Tungsten Shield</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 65%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">65%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================= UTILITY SKILLS ================= -->
+                            <div class="arsenal-card" data-category="utility" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_wrench.png" alt="SQL Database Sieve" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">SQL & PL/SQL</h4>
+                                    <span class="arsenal-subtitle">Database Management</span>
+                                    <span class="arsenal-metaphor">Data Sieve</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 70%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">70%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="utility" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_wrench.png" alt="NumPy & Pandas Vector Compass" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">NumPy & Pandas</h4>
+                                    <span class="arsenal-subtitle">Data Processing</span>
+                                    <span class="arsenal-metaphor">Vector Compass</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 80%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="utility" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_wrench.png" alt="TensorFlow Assembly Drone" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">TensorFlow & Keras</h4>
+                                    <span class="arsenal-subtitle">Deep Learning Suite</span>
+                                    <span class="arsenal-metaphor">Assembly Line Drone</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 75%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">75%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="utility" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_wrench.png" alt="OpenAI API Cognitive Gateway" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">OpenAI API</h4>
+                                    <span class="arsenal-subtitle">LLM Integration</span>
+                                    <span class="arsenal-metaphor">Cognitive Gateway</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 80%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="utility" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_wrench.png" alt="Matplotlib Prism Scope" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Matplotlib & Seaborn</h4>
+                                    <span class="arsenal-subtitle">Data Visualization</span>
+                                    <span class="arsenal-metaphor">Prism Scope</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 80%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="utility" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_wrench.png" alt="Scikit-learn Analysis Prism" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Scikit-learn</h4>
+                                    <span class="arsenal-subtitle">Machine Learning Toolkit</span>
+                                    <span class="arsenal-metaphor">Analysis Prism</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 75%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">75%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================= SPECIALIZATION SKILLS ================= -->
+                            <div class="arsenal-card" data-category="specialization" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_orb.png" alt="Neural Networks Core" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Neural Networks</h4>
+                                    <span class="arsenal-subtitle">Deep Learning Architecture</span>
+                                    <span class="arsenal-metaphor">Synaptic Matrix Core</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 80%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="specialization" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_orb.png" alt="Shader Graph Projector Grid" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Shader Graph</h4>
+                                    <span class="arsenal-subtitle">Visual FX & Rendering</span>
+                                    <span class="arsenal-metaphor">Holo-Projector Grid</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 75%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">75%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="specialization" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_orb.png" alt="OpenGL Glaive" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">OpenGL & DirectX</h4>
+                                    <span class="arsenal-subtitle">Low-Level Graphics API</span>
+                                    <span class="arsenal-metaphor">Rasterizer Glaive</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 65%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">65%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="specialization" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_orb.png" alt="NLP Codex" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">NLP</h4>
+                                    <span class="arsenal-subtitle">Computational Linguistics</span>
+                                    <span class="arsenal-metaphor">Lexicon Codex</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 70%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">70%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="specialization" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_orb.png" alt="Multiplayer Networking Relayer" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Multiplayer Networking</h4>
+                                    <span class="arsenal-subtitle">Network Programming</span>
+                                    <span class="arsenal-metaphor">Quantum Relayer</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 80%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="arsenal-card" data-category="specialization" style="display: none; opacity: 0; transform: scale(0.95);">
+                                <img src="Images/weapon_orb.png" alt="Computer Vision Optics Processor" class="arsenal-icon" width="48" height="48">
+                                <div class="arsenal-info">
+                                    <h4 class="arsenal-skill-name">Computer Vision</h4>
+                                    <span class="arsenal-subtitle">Image Processing & Object Detection</span>
+                                    <span class="arsenal-metaphor">Optics Processor</span>
+                                    <div class="arsenal-mastery-row">
+                                        <div class="arsenal-mastery-track">
+                                            <div class="arsenal-mastery-fill" style="width: 75%"></div>
+                                        </div>
+                                        <span class="arsenal-mastery-pct">75%</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="skill-category">
-                    <h3>Tools & Frameworks</h3>
-                    <div class="skill-cards">
-                        <div class="skill-card">
-                            <i class="fas fa-tools"></i>
-                            <span>Scikit-learn</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fab fa-tensorflow"></i>
-                            <span>TensorFlow</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-brain"></i>
-                            <span>Keras</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-fire"></i>
-                            <span>PyTorch</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-robot"></i>
-                            <span>HuggingFace</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-language"></i>
-                            <span>NLTK</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-brain"></i>
-                            <span>OpenAI API</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-calculator"></i>
-                            <span>NumPy</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-table"></i>
-                            <span>Pandas</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Matplotlib</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-chart-area"></i>
-                            <span>Seaborn</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-gamepad"></i>
-                            <span>Pygame</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-gamepad"></i>
-                            <span>SFML</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-cube"></i>
-                            <span>Blender</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-paint-brush"></i>
-                            <span>Aseprite</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-project-diagram"></i>
-                            <span>Shader Graph</span>
-                        </div>
-                        <div class="skill-card">
-                            <i class="fas fa-desktop"></i>
-                            <span>OpenGL/DirectX</span>
+
+                <!-- ========== 4. BATTLE HISTORY ========== -->
+                <div class="hud-panel" data-label="Battle History" id="battle-history">
+                    <div class="hud-panel__corners"></div>
+                    <div class="hud-panel__body" style="position: relative; padding: 10px;">
+                        <svg viewBox="0 0 800 450" class="battle-history-map">
+                            <defs>
+                                <!-- Radar grid pattern -->
+                                <pattern id="radar-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <circle cx="2" cy="2" r="1" fill="rgba(0, 255, 255, 0.05)" />
+                                </pattern>
+                            </defs>
+                            
+                            <!-- Background Grid -->
+                            <rect width="100%" height="100%" fill="url(#radar-grid)" />
+                            
+                            <!-- Geometric Continent Outlines (Tactical Map) -->
+                            <!-- North America -->
+                            <path class="continent-path" d="M 80 80 L 220 80 L 220 180 L 160 220 L 120 180 Z" />
+                            <!-- South America -->
+                            <path class="continent-path" d="M 160 220 L 200 240 L 180 380 L 150 380 L 130 280 Z" />
+                            <!-- Africa -->
+                            <path class="continent-path" d="M 340 220 L 420 220 L 440 280 L 400 380 L 370 380 L 340 280 Z" />
+                            <!-- Eurasia -->
+                            <path class="continent-path" d="M 300 80 L 680 80 L 680 240 L 520 260 L 450 300 L 340 220 Z" />
+                            <!-- Australia -->
+                            <path class="continent-path" d="M 600 320 L 660 320 L 680 380 L 600 380 Z" />
+                            
+                            <!-- Chronological Path Connections -->
+                            <path class="milestone-path" d="M 450 230 L 400 270 L 500 250 L 600 180" />
+                            
+                            <!-- MILESTONE NODES -->
+                            
+                            <!-- Milestone 1: Pune (BTech) - Completed -->
+                            <g class="milestone-node completed">
+                                <circle cx="450" cy="230" r="12" class="node-ring" />
+                                <circle cx="450" cy="230" r="6" class="node-dot" />
+                                <!-- SVG Flag Icon -->
+                                <path d="M 450 230 L 450 210" stroke="#00FFFF" stroke-width="1.5" />
+                                <path d="M 450 210 L 465 215 L 450 220 Z" fill="#00FFFF" />
+                                
+                                <text x="450" y="252" class="node-label" text-anchor="middle">BTech CE (VIIT)</text>
+                                <text x="450" y="265" class="node-xp" text-anchor="middle">+2,000 XP</text>
+                            </g>
+                            
+                            <!-- Milestone 2: Internship - Completed -->
+                            <g class="milestone-node completed">
+                                <circle cx="400" cy="270" r="12" class="node-ring" />
+                                <circle cx="400" cy="270" r="6" class="node-dot" />
+                                <!-- SVG Flag Icon -->
+                                <path d="M 400 270 L 400 250" stroke="#00FFFF" stroke-width="1.5" />
+                                <path d="M 400 250 L 415 255 L 400 260 Z" fill="#00FFFF" />
+                                
+                                <text x="400" y="292" class="node-label" text-anchor="middle">Game Dev Intern</text>
+                                <text x="400" y="305" class="node-xp" text-anchor="middle">+1,500 XP</text>
+                            </g>
+                            
+                            <!-- Milestone 3: Game Dev Mage (Current) - Current -->
+                            <g class="milestone-node current">
+                                <circle cx="500" cy="250" r="12" class="node-ring" />
+                                <circle cx="500" cy="250" r="6" class="node-dot" />
+                                
+                                <text x="500" y="272" class="node-label" text-anchor="middle">Game Dev Mage</text>
+                                <text x="500" y="285" class="node-xp" text-anchor="middle">Active</text>
+                            </g>
+                            
+                            <!-- Milestone 4: Future Architect - Upcoming -->
+                            <g class="milestone-node upcoming">
+                                <circle cx="600" cy="180" r="6" class="node-dot" />
+                                
+                                <text x="600" y="202" class="node-label" text-anchor="middle">Lead Architect</text>
+                                <text x="600" y="215" class="node-xp" text-anchor="middle">+5,000 XP</text>
+                            </g>
+                        </svg>
+                        
+                        <!-- Terminal Log Overlay -->
+                        <div class="battle-terminal">
+                            <div class="battle-terminal-header">> BATTLE_LOG_SYS</div>
+                            <div class="battle-terminal-body">
+                                <div class="term-line">SECURE CONNECT ESTABLISHED...</div>
+                                <div class="term-line">DOWNLOADING MILITARY RECORDS...</div>
+                                <div class="term-line">MIL-01: VIIT SECTOR CLEARED (+2000 XP)</div>
+                                <div class="term-line">MIL-02: INTERNSHIP COMPLETED (+1500 XP)</div>
+                                <div class="term-line">MIL-03: OPERATION: PORTFOLIO ACTIVE...</div>
+                                <div class="term-line blinking-cursor">READY_</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="skill-category">
-                    <h3>Version Control</h3>
-                    <div class="skill-cards">
-                        <div class="skill-card">
-                            <i class="fab fa-git-alt"></i>
-                            <span>Git</span>
+
+                <!-- ========== 5. ACHIEVEMENTS ========== -->
+                <div class="hud-panel" data-label="Achievements" id="achievements">
+                    <div class="hud-panel__corners"></div>
+                    <div class="hud-panel__body">
+                        <div class="achievements-grid" id="achievements-grid">
+                            <!-- Card 1: Unity Builder (Unlocked) -->
+                            <div class="achievement-card unlocked">
+                                <div class="badge-icon-container bronze-ring">
+                                    <div class="badge-icon-circle">
+                                        <i class="fas fa-gamepad"></i>
+                                    </div>
+                                    <span class="rarity-label bronze">Common</span>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">Unity Builder</h4>
+                                    <p class="achievement-desc">Successfully built Unity projects for multiple platforms.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: ML Pioneer (Unlocked) -->
+                            <div class="achievement-card unlocked">
+                                <div class="badge-icon-container silver-ring">
+                                    <div class="badge-icon-circle">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <span class="rarity-label silver">Rare</span>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">ML Pioneer</h4>
+                                    <p class="achievement-desc">Deployed production ML models with real-world impact.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: 100 Commits (Unlocked) -->
+                            <div class="achievement-card unlocked">
+                                <div class="badge-icon-container bronze-ring">
+                                    <div class="badge-icon-circle">
+                                        <i class="fas fa-code-branch"></i>
+                                    </div>
+                                    <span class="rarity-label bronze">Common</span>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">100 Commits</h4>
+                                    <p class="achievement-desc">Reached 100 commits in a version control repo.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: First Deploy (Unlocked) -->
+                            <div class="achievement-card unlocked">
+                                <div class="badge-icon-container bronze-ring">
+                                    <div class="badge-icon-circle">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <span class="rarity-label bronze">Common</span>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">First Deploy</h4>
+                                    <p class="achievement-desc">Successfully deployed a game build to a platform.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 5: Legendary Arch-Mage (Locked, Hidden) -->
+                            <div class="achievement-card locked hidden-achievement">
+                                <div class="badge-icon-container gold-ring">
+                                    <div class="badge-icon-circle">
+                                        <i class="fas fa-crown"></i>
+                                        <div class="lock-overlay"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <span class="rarity-label gold">Epic</span>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">Legendary Arch-Mage</h4>
+                                    <p class="achievement-desc">Build and publish a commercial multiplayer game.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 6: Master Optimizer (Locked, Hidden) -->
+                            <div class="achievement-card locked hidden-achievement">
+                                <div class="badge-icon-container gold-ring">
+                                    <div class="badge-icon-circle">
+                                        <i class="fas fa-bolt"></i>
+                                        <div class="lock-overlay"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <span class="rarity-label gold">Epic</span>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">Master Optimizer</h4>
+                                    <p class="achievement-desc">Profile and optimize a game to run at solid 120 FPS.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 7: Neural Architect (Locked, Hidden) -->
+                            <div class="achievement-card locked hidden-achievement">
+                                <div class="badge-icon-container silver-ring">
+                                    <div class="badge-icon-circle">
+                                        <i class="fas fa-network-wired"></i>
+                                        <div class="lock-overlay"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <span class="rarity-label silver">Rare</span>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">Neural Architect</h4>
+                                    <p class="achievement-desc">Train a custom deep learning transformer model from scratch.</p>
+                                </div>
+                            </div>
+
+                            <!-- Card 8: Git Kraken (Locked, Hidden) -->
+                            <div class="achievement-card locked hidden-achievement">
+                                <div class="badge-icon-container silver-ring">
+                                    <div class="badge-icon-circle">
+                                        <i class="fas fa-terminal"></i>
+                                        <div class="lock-overlay"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <span class="rarity-label silver">Rare</span>
+                                </div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">Git Kraken</h4>
+                                    <p class="achievement-desc">Maintain 365 days contribution streak on GitHub.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="skill-card">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub</span>
+
+                        <!-- Expansion Trigger Button -->
+                        <div class="achievements-actions">
+                            <button class="view-achievements-btn" id="view-achievements-btn">View All Achievements</button>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- ========== 6. SIGNAL TERMINAL ========== -->
+                <div class="hud-panel" data-label="Signal Terminal" id="signal-terminal">
+                    <div class="hud-panel__corners"></div>
+                    <div class="hud-panel__body">
+                        <div class="terminal-screen">
+                            <p class="terminal-line"><span class="terminal-prompt">&gt;</span> INCOMING TRANSMISSION...</p>
+                            <p class="terminal-line"><span class="terminal-prompt">&gt;</span> // SEND A SIGNAL //</p>
+                            <p class="terminal-line"><span class="terminal-prompt">&gt;</span> ENTER MESSAGE BELOW:</p>
+                        </div>
+                        <div class="terminal-actions">
+                            <a href="contact.html" class="signal-btn"><i class="fas fa-satellite-dish"></i> Send Signal</a>
+                            <a href="https://github.com/MohitMalve07" target="_blank" class="signal-btn signal-btn--secondary"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://linkedin.com/in/mohit-malve" target="_blank" class="signal-btn signal-btn--secondary"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.hud-grid -->
         </div>
     </section>
 

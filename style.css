@@ -225,28 +225,34 @@ body::nth-child(5)::before {
     box-sizing: border-box;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
     /* Base Colors */
-    --primary-color: #0a0a0f;
-    --secondary-color: #121218;
+    --primary-color: #0A0E1A;
+    --secondary-color: #0D1526;
     --text-color: #f0f0f0;
     --text-secondary: #b0b0b0;
     
     /* Accent Colors */
-    --accent-blue: #00a8ff;
-    --accent-purple: #9d4edd;
+    --accent-blue: #00FFFF;
+    --accent-purple: #7B61FF;
     --accent-pink: #ff2a6d;
-    --accent-cyan: #05d9e8;
+    --accent-cyan: #00FFFF;
     --accent-green: #01c38d;
+    --accent-amber: #F4A623;
     
     /* Section-specific Colors */
-    --hero-glow: rgba(0, 168, 255, 0.6);
-    --about-accent: #9d4edd;
+    --hero-glow: rgba(0, 255, 255, 0.6);
+    --about-accent: #7B61FF;
     --game-dev-accent: #ff2a6d;
-    --ml-accent: #05d9e8;
+    --ml-accent: #00FFFF;
     --tools-accent: #01c38d;
+    --reward-xp-color: #F4A623;
+    
+    /* Panel Styling */
+    --panel-bg: #0D1526;
+    --panel-border: 1px solid rgba(0, 255, 255, 0.2);
     
     /* Transitions */
     --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -261,7 +267,7 @@ body {
     background-color: var(--primary-color);
     color: var(--text-color);
     line-height: 1.6;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Exo 2', sans-serif;
     overflow-x: hidden;
     position: relative; /* Ensure body is a positioning context */
 }
@@ -318,8 +324,448 @@ body {
 
 
 h1, h2, h3, h4, h5, h6, .logo, .nav-links, button {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ==========================================
+   HUD Panel — Reusable RPG-HUD Component
+   ==========================================
+   Usage:
+     <div class="hud-panel" data-label="Section Name">
+       <div class="hud-panel__body"> ... content ... </div>
+     </div>
+   ========================================== */
+
+.hud-panel {
+    background: var(--panel-bg);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    position: relative;
+    border-radius: 0;
+    padding: 0;         /* padding lives on __body */
+    overflow: visible;
+}
+
+/* ---- Section Label (top-left, outside flow) ---- */
+.hud-panel[data-label]::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    background: var(--panel-bg);
+    color: #00FFFF;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0 8px;
+    line-height: 20px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* ---- Scanline overlay ---- */
+.hud-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 255, 0.015) 2px,
+        rgba(0, 255, 255, 0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+    border-radius: inherit;
+}
+
+/* ---- Inner body (carries the padding) ---- */
+.hud-panel__body {
+    position: relative;
+    padding: 24px 20px 20px;
+    z-index: 2;  /* above scanlines */
+}
+
+/* ==========================================
+   Corner Brackets — all four corners
+   We use 4 tiny spans (.corner.tl, .tr, .bl, .br)
+   OR a pure-CSS approach with box-shadows on
+   __body::before (top-right) and __body::after
+   (bottom-left). The panel itself handles TL
+   and BR via outline tricks.
+   ========================================== */
+
+/* Top-left corner bracket */
+.hud-panel__body::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 12px;
+    height: 12px;
+    border-top: 1px solid #00FFFF;
+    border-left: 1px solid #00FFFF;
+    pointer-events: none;
+    z-index: 4;
+}
+
+/* Top-right corner bracket */
+.hud-panel__body::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 12px;
+    height: 12px;
+    border-top: 1px solid #00FFFF;
+    border-right: 1px solid #00FFFF;
+    pointer-events: none;
+    z-index: 4;
+}
+
+/* Bottom-left & Bottom-right via extra elements
+   We use the .hud-panel__corners wrapper for these */
+.hud-panel__corners {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.hud-panel__corners::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: -1px;
+    width: 12px;
+    height: 12px;
+    border-bottom: 1px solid #00FFFF;
+    border-left: 1px solid #00FFFF;
+}
+
+.hud-panel__corners::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 12px;
+    height: 12px;
+    border-bottom: 1px solid #00FFFF;
+    border-right: 1px solid #00FFFF;
+}
+
+/* ---- Hover glow ---- */
+.hud-panel:hover {
+    border-color: rgba(0, 255, 255, 0.45);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.15),
+                inset 0 0 12px rgba(0, 255, 255, 0.04);
+}
+
+/* ---- Legacy compat: keep old classes working ---- */
+.skill-category,
+.contact-container,
+.experience,
+.education,
+.project-card,
+.category-button {
+    background: var(--panel-bg);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    position: relative;
+}
+
+/* ==========================================
+   HUD Dashboard — Grid Layout
+   ========================================== */
+.hud-dashboard {
+    padding: 120px 0 60px;
+    background-color: var(--primary-color);
+}
+
+.hud-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* Arsenal/Skills panel spans full width */
+.hud-panel--wide {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+    .hud-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================
+   1. Player Profile — internal layout
+   ========================================== */
+.profile-layout {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.profile-avatar {
+    flex-shrink: 0;
+}
+
+.profile-avatar .about-sticker {
+    width: 120px;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+}
+
+.profile-info h3 {
+    font-size: 1.4rem;
+    color: #00FFFF;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+    margin-bottom: 4px;
+}
+
+.profile-class {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    color: #7B61FF;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.profile-info p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 576px) {
+    .profile-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* ==========================================
+   2. Quest Log — quest items
+   ========================================== */
+.quest-item {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.08);
+}
+
+.quest-item:last-child {
+    border-bottom: none;
+}
+
+.quest-item h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    color: #F4A623;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+.quest-item p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.quest-item ul {
+    margin: 8px 0 0 18px;
+    padding: 0;
+}
+
+.quest-item li {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    position: relative;
+    padding-left: 12px;
+}
+
+.quest-item li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #00FFFF;
+}
+
+/* ==========================================
+   4. Battle History — timeline
+   ========================================== */
+.timeline {
+    position: relative;
+    padding-left: 24px;
+    border-left: 2px solid rgba(0, 255, 255, 0.15);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -30px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    background: #00FFFF;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.7);
+}
+
+.timeline-content h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    color: #00FFFF;
+    margin-bottom: 4px;
+}
+
+.timeline-meta {
+    font-size: 0.8rem;
+    color: #F4A623;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.timeline-content p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+/* ==========================================
+   5. Achievements — badge grid
+   ========================================== */
+.achievement-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 576px) {
+    .achievement-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.achievement-badge {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(0, 255, 255, 0.03);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.achievement-badge:hover {
+    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.1);
+}
+
+.achievement-badge > i {
+    font-size: 1.5rem;
+    color: #F4A623;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.achievement-badge h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    color: #00FFFF;
+    margin-bottom: 4px;
+}
+
+.achievement-badge p {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* ==========================================
+   6. Signal Terminal — CRT style
+   ========================================== */
+.terminal-screen {
+    background: rgba(0, 10, 20, 0.6);
+    padding: 16px;
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    margin-bottom: 16px;
+    font-family: 'Exo 2', monospace;
+}
+
+.terminal-line {
+    font-size: 0.85rem;
+    color: #00FFFF;
+    margin-bottom: 6px;
+    opacity: 0.85;
+}
+
+.terminal-prompt {
+    color: #F4A623;
+    font-weight: 700;
+    margin-right: 6px;
+}
+
+.terminal-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.signal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #0A0E1A;
+    background: #00FFFF;
+    border: none;
+    border-radius: 2px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.signal-btn:hover {
+    background: #7B61FF;
+    color: #fff;
+    box-shadow: 0 0 14px rgba(123, 97, 255, 0.5);
+    transform: translateY(-2px);
+    text-shadow: none;
+}
+
+.signal-btn--secondary {
+    background: transparent;
+    color: #00FFFF;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.signal-btn--secondary:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: #00FFFF;
+    color: #00FFFF;
 }
 
 a {
@@ -632,16 +1078,16 @@ section {
     }
 }
 
-/* Hero Section */
+/* Hero Section — Player Profile HUD */
 .hero {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
     background-color: var(--primary-color);
     position: relative;
     overflow: hidden;
+    padding: 120px 0 60px;
 }
 
 .hero::before {
@@ -651,63 +1097,324 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, rgba(0, 168, 255, 0.1) 0%, rgba(10, 10, 15, 0.9) 70%);
-    z-index: 1;
+    background: radial-gradient(circle at 30% 40%, rgba(0, 255, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(123, 97, 255, 0.04) 0%, transparent 50%);
+    z-index: 0;
 }
 
-/* Particle effect */
-.hero::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
+/* The hero panel sits inside .hero */
+.hero-profile {
+    max-width: 520px;
     width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(circle at 20% 30%, rgba(0, 168, 255, 0.1) 0%, transparent 8%),
-        radial-gradient(circle at 80% 20%, rgba(157, 78, 221, 0.1) 0%, transparent 8%),
-        radial-gradient(circle at 40% 70%, rgba(255, 42, 109, 0.1) 0%, transparent 8%),
-        radial-gradient(circle at 70% 90%, rgba(5, 217, 232, 0.1) 0%, transparent 8%);
-    background-size: 180% 180%;
-    background-position: center;
-    z-index: 1;
-    animation: pulse 15s infinite alternate;
-}
-
-@keyframes pulse {
-    0% {
-        background-position: 0% 0%;
-    }
-    100% {
-        background-position: 100% 100%;
-    }
-}
-
-.hero-content {
+    margin: 0 auto;
     position: relative;
     z-index: 2;
 }
 
-.hero h1 {
-    font-size: 4.5rem;
+/* ---- Top Row: Avatar + Info ---- */
+.hero-top {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
     margin-bottom: 20px;
-    animation: fadeInDown 1s ease;
-    text-shadow: 0 0 15px var(--hero-glow);
+}
+
+/* Circular Avatar Frame with cyan glow ring */
+.hero-avatar-frame {
+    flex-shrink: 0;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    padding: 3px;
+    background: conic-gradient(#00FFFF, #7B61FF, #00FFFF);
+    box-shadow: 0 0 16px rgba(0, 255, 255, 0.5),
+                0 0 32px rgba(0, 255, 255, 0.2);
+    animation: avatarRingSpin 6s linear infinite;
+    position: relative;
+}
+
+@keyframes avatarRingSpin {
+    0%   { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.hero-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 2px solid var(--panel-bg);
+}
+
+/* ---- Name Row with LVL badge ---- */
+.hero-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.hero-name-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 2px;
+}
+
+.hero-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #f0f0f0;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.1;
+    animation: none;
+}
+
+.hero-subtitle {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    color: #7B61FF;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    margin-bottom: 14px;
+    text-shadow: 0 0 8px rgba(123, 97, 255, 0.4);
+}
+
+/* ---- LVL Badge ---- */
+.lvl-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    padding: 4px 10px;
+    flex-shrink: 0;
+    line-height: 1;
+    background: rgba(0, 255, 255, 0.05);
+}
+
+.lvl-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    color: rgba(0, 255, 255, 0.6);
+    text-transform: uppercase;
     letter-spacing: 2px;
 }
 
-.hero p {
-    font-size: 1.8rem;
-    margin-bottom: 40px;
-    color: var(--text-secondary);
-    animation: fadeInUp 1s ease;
-    letter-spacing: 1px;
+.lvl-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #00FFFF;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
 }
 
-.hero button {
-    animation: fadeIn 1.5s ease;
-    font-size: 1.1rem;
-    margin-top: 15px; /* Add vertical spacing between buttons */
+/* ---- XP Bar ---- */
+.xp-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.xp-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #F4A623;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+.xp-bar-track {
+    flex: 1;
+    height: 10px;
+    background: rgba(244, 166, 35, 0.12);
+    border: 1px solid rgba(244, 166, 35, 0.25);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.xp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F4A623, #ffcc00);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(244, 166, 35, 0.5);
+    transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.xp-value {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 11px;
+    color: #F4A623;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* ---- Skill Bars ---- */
+.hero-skill-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hero-skill-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hero-skill-row > i {
+    width: 18px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #00FFFF;
+    flex-shrink: 0;
+}
+
+.hero-skill-label {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    width: 140px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hero-skill-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(0, 255, 255, 0.08);
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.hero-skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00FFFF, #7B61FF);
+    border-radius: 1px;
+    box-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hero-skill-pct {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.7);
+    width: 32px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* ---- Terminal Log ---- */
+.hero-terminal {
+    background: rgba(0, 10, 20, 0.7);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    padding: 12px 14px;
+    margin: 20px 0 16px;
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+}
+
+.hero-terminal-line {
+    font-family: 'Exo 2', monospace;
+    font-size: 0.78rem;
+    color: #00FFFF;
+    opacity: 0.8;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.hero-terminal-cursor {
+    font-family: 'Exo 2', monospace;
+    font-size: 0.78rem;
+    color: #00FFFF;
+    animation: cursorBlink 0.8s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ---- Inspect Profile Button ---- */
+.inspect-btn {
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+    padding: 10px 24px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #00FFFF;
+    background: transparent;
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    cursor: pointer;
+    transition: var(--glow-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.inspect-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: rgba(0, 255, 255, 0.1);
+    transition: width 0.4s ease;
+    z-index: -1;
+}
+
+.inspect-btn:hover {
+    border-color: #00FFFF;
+    box-shadow: 0 0 16px rgba(0, 255, 255, 0.35),
+                inset 0 0 16px rgba(0, 255, 255, 0.08);
+    color: #fff;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+.inspect-btn:hover::before {
+    width: 100%;
+}
+
+/* ---- Hero Responsive ---- */
+@media (max-width: 576px) {
+    .hero-top {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-name-row {
+        justify-content: center;
+    }
+
+    .hero-name {
+        font-size: 22px;
+    }
+
+    .hero-skill-label {
+        width: 100px;
+    }
+
+    .hero-profile {
+        max-width: 100%;
+    }
 }
 
 /* About Section */
@@ -1860,4 +2567,1098 @@ footer p {
 
 .slide-in-up {
     animation: slideInUp 1.2s ease-out forwards;
+}
+
+/* ==========================================
+   Quest Log Panel & Card Styles
+   ========================================== */
+
+/* Container for horizontal scrolling */
+.quest-log-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 24px;
+    padding: 24px 8px 32px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: #00FFFF rgba(0, 255, 255, 0.1);
+}
+
+.quest-log-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.quest-log-scroll-container::-webkit-scrollbar-track {
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.quest-log-scroll-container::-webkit-scrollbar-thumb {
+    background: #00FFFF;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+
+/* Individual Quest Cards */
+.quest-card {
+    background: #0D1526;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 24px 20px;
+    width: 320px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.quest-card.primary-quest {
+    border-left: 3px solid #7B61FF;
+}
+
+.quest-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 255, 255, 0.45);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
+}
+
+/* Quest Card Header */
+.quest-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.quest-card-label {
+    color: #00FFFF;
+    font-size: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.quest-status-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.quest-status-badge.in-progress {
+    color: #F4A623;
+}
+
+.quest-status-badge.completed {
+    color: #00FF66;
+}
+
+/* Title and Difficulty Rating */
+.quest-card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+.quest-difficulty {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.quest-difficulty .star {
+    color: #00FFFF;
+    font-size: 11px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.6);
+}
+
+.quest-difficulty .star.empty {
+    opacity: 0.25;
+}
+
+/* Objective Description */
+.quest-objective {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 18px;
+    min-height: 65px; /* Ensures height alignment for 2-3 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Tech Stack row with pill badges */
+.quest-tech-section {
+    margin-bottom: 16px;
+}
+
+.quest-tech-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    color: #00FFFF;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.quest-tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.quest-tech-pill {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 11px;
+    color: #ffffff;
+    background: rgba(0, 255, 255, 0.06);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* Reward line and Status line */
+.quest-reward-line {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11.5px;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.quest-reward-val {
+    color: #F4A623;
+    font-weight: 700;
+}
+
+.quest-status-line {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.quest-status-val {
+    color: #ffffff;
+}
+
+/* Open Quest Button */
+.open-quest-btn {
+    margin-top: auto; /* Pushes button to bottom of flex layout */
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    border: 1px solid #00FFFF;
+    color: #00FFFF;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}
+
+.open-quest-btn:hover {
+    background: rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+/* ==========================================
+   Arsenal Panel & Skill Card Styles
+   ========================================== */
+
+/* Tabs Navigation */
+.arsenal-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    padding-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.arsenal-tab {
+    background: transparent;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    color: var(--text-secondary);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    padding: 8px 18px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.arsenal-tab:hover {
+    color: #00FFFF;
+    border-color: rgba(0, 255, 255, 0.5);
+    background: rgba(0, 255, 255, 0.03);
+}
+
+.arsenal-tab.active {
+    color: #00FFFF;
+    border-color: #00FFFF;
+    background: rgba(0, 255, 255, 0.08);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* Skills 2-Column Grid */
+.arsenal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    min-height: 200px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .arsenal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Individual Skill Card */
+.arsenal-card {
+    background: #0D1526;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.arsenal-card:hover {
+    border-color: rgba(0, 255, 255, 0.45);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Icon details */
+.arsenal-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+    image-rendering: pixelated; /* Ensures pixel-art sharpness */
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px;
+    border-radius: 4px;
+}
+
+/* Info container */
+.arsenal-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.arsenal-skill-name {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 2px 0;
+    line-height: 1.2;
+    text-transform: none; /* Keep natural case for C#, PyTorch */
+    letter-spacing: 0.5px;
+}
+
+.arsenal-subtitle {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+.arsenal-metaphor {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 11px;
+    font-style: italic;
+    color: #7B61FF;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Mastery Progress bar */
+.arsenal-mastery-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.arsenal-mastery-track {
+    background: rgba(0, 255, 255, 0.08);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    height: 8px;
+    flex-grow: 1;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.arsenal-mastery-fill {
+    background: #00FFFF;
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.arsenal-mastery-pct {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #00FFFF;
+    min-width: 32px;
+    text-align: right;
+}
+
+/* ==========================================
+   Battle History Map & Node Styles
+   ========================================== */
+
+.battle-history-map {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #060913;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+/* Continents style */
+.continent-path {
+    fill: rgba(0, 255, 255, 0.03);
+    stroke: rgba(0, 255, 255, 0.12);
+    stroke-width: 1;
+    transition: fill 0.3s ease;
+}
+
+.continent-path:hover {
+    fill: rgba(0, 255, 255, 0.06);
+}
+
+/* Connection Paths styling */
+.milestone-path {
+    fill: none;
+    stroke: rgba(0, 255, 255, 0.4);
+    stroke-width: 2;
+    stroke-dasharray: 6, 4;
+    animation: dashScroll 30s linear infinite;
+}
+
+@keyframes dashScroll {
+    to {
+        stroke-dashoffset: -1000;
+    }
+}
+
+/* Milestone Node elements */
+.milestone-node {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.milestone-node:hover {
+    transform: scale(1.05);
+}
+
+/* Custom styles for completed/current/upcoming circles */
+.milestone-node.completed .node-dot {
+    fill: #00FFFF;
+    stroke: #0A0E1A;
+    stroke-width: 1.5;
+}
+
+.milestone-node.completed .node-ring {
+    stroke: rgba(0, 255, 255, 0.3);
+    stroke-width: 1;
+    fill: none;
+}
+
+.milestone-node.current .node-dot {
+    fill: #F4A623;
+    stroke: #0A0E1A;
+    stroke-width: 2;
+}
+
+.milestone-node.current .node-ring {
+    stroke: #F4A623;
+    fill: none;
+    stroke-width: 1.5;
+    animation: pulseRing 2s infinite ease-out;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.milestone-node.upcoming .node-dot {
+    fill: #060913;
+    stroke: rgba(0, 255, 255, 0.4);
+    stroke-width: 2;
+}
+
+.milestone-node.upcoming .node-ring {
+    display: none;
+}
+
+/* Pulsing ring animation for current node */
+@keyframes pulseRing {
+    0% {
+        transform: scale(0.6);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+/* Label styling */
+.node-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    fill: #ffffff;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.node-xp {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    fill: #F4A623;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* Flags colors */
+.milestone-node.completed path {
+    stroke: #00FFFF;
+    fill: #00FFFF;
+}
+
+/* Bottom-left diagnostic terminal log */
+.battle-terminal {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    width: 280px;
+    background: rgba(10, 14, 26, 0.9);
+    border: 1px solid rgba(0, 255, 255, 0.25);
+    padding: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5px;
+    color: #00FFFF;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+    border-radius: 2px;
+    z-index: 5;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.battle-terminal-header {
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+.term-line {
+    margin: 3px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.term-line.blinking-cursor::after {
+    content: '_';
+    animation: termCursorBlink 1s infinite;
+}
+
+@keyframes termCursorBlink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .battle-terminal {
+        position: static;
+        width: 100%;
+        margin-top: 15px;
+    }
+}
+
+/* ==========================================
+   Achievements Grid & Badge Styles
+   ========================================== */
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+    transition: all 0.4s ease-in-out;
+}
+
+@media (max-width: 576px) {
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Individual Achievement Cards */
+.achievement-card {
+    background: #0D1526;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Unlocked glows cyan */
+.achievement-card.unlocked {
+    border-color: rgba(0, 255, 255, 0.35);
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.15);
+}
+
+.achievement-card.unlocked:hover {
+    border-color: rgba(0, 255, 255, 0.55);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.25);
+}
+
+/* Locked has reduced opacity */
+.achievement-card.locked {
+    opacity: 0.45;
+}
+
+.achievement-card.locked:hover {
+    opacity: 0.65;
+}
+
+/* Hidden by default achievements */
+.hidden-achievement {
+    display: none !important;
+}
+
+.achievements-grid.expanded .hidden-achievement {
+    display: flex !important;
+    animation: fadeInUp 0.4s ease-out forwards;
+}
+
+/* Badge Icon Container */
+.badge-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    width: 64px;
+}
+
+/* Circular badge with purple fill and rarity rings */
+.badge-icon-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #7B61FF; /* purple background fill */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.badge-icon-circle i {
+    font-size: 22px;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Rarity Rings */
+.badge-icon-container.bronze-ring .badge-icon-circle {
+    border: 3px solid #CD7F32; /* Bronze */
+    box-shadow: 0 0 8px rgba(205, 127, 50, 0.3);
+}
+
+.badge-icon-container.silver-ring .badge-icon-circle {
+    border: 3px solid #C0C0C0; /* Silver */
+    box-shadow: 0 0 8px rgba(192, 192, 192, 0.3);
+}
+
+.badge-icon-container.gold-ring .badge-icon-circle {
+    border: 3px solid #FFD700; /* Gold */
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
+}
+
+/* Lock Icon Overlay */
+.lock-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.lock-overlay i {
+    font-size: 16px;
+    color: #FFD700; /* gold lock */
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+/* Rarity Label */
+.rarity-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rarity-label.bronze {
+    color: #CD7F32;
+}
+
+.rarity-label.silver {
+    color: #C0C0C0;
+}
+
+.rarity-label.gold {
+    color: #FFD700;
+}
+
+/* Info Elements */
+.achievement-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.achievement-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 4px 0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.achievement-desc {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Achievements expansion footer button */
+.achievements-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.view-achievements-btn {
+    background: transparent;
+    border: 1px solid #00FFFF;
+    color: #00FFFF;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    padding: 10px 24px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.view-achievements-btn:hover {
+    background: rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+/* ==========================================
+   Signal Terminal Panel Styles
+   ========================================== */
+
+.terminal-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.system-info {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    color: #00FFFF;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+}
+
+/* Animated signal strength display */
+.signal-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.signal-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 16px;
+}
+
+.signal-bars .bar {
+    width: 3px;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.25);
+    border-radius: 1px;
+    animation: signalFill 1.5s infinite alternate ease-in-out;
+}
+
+.signal-bars .bar-1 { height: 25%; animation-delay: 0.1s; }
+.signal-bars .bar-2 { height: 50%; animation-delay: 0.3s; }
+.signal-bars .bar-3 { height: 75%; animation-delay: 0.5s; }
+.signal-bars .bar-4 { height: 100%; animation-delay: 0.7s; }
+
+@keyframes signalFill {
+    0%, 25% {
+        background: rgba(0, 255, 255, 0.1);
+        box-shadow: none;
+    }
+    75%, 100% {
+        background: #00FFFF;
+        box-shadow: 0 0 6px rgba(0, 255, 255, 0.7);
+    }
+}
+
+.signal-status {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #00FFFF;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+/* Contact Terminal Form elements */
+.contact-terminal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.terminal-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #00FFFF;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: -8px;
+}
+
+/* Textarea screen wrapper */
+.terminal-screen-wrapper {
+    background: #060913; /* dark screen fill */
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.terminal-prompt-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+}
+
+.terminal-prompt-char {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #00FFFF;
+    line-height: 1.4;
+    margin-top: 10px;
+    user-select: none;
+}
+
+.terminal-textarea {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #00FFFF;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 10px 0;
+    resize: vertical;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.terminal-textarea::placeholder {
+    color: rgba(0, 255, 255, 0.45);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.terminal-cursor-line {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 18px;
+    margin-top: 4px;
+}
+
+/* Prompted text inputs */
+.terminal-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-prompt {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    color: #00FFFF;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.terminal-input {
+    background: rgba(10, 14, 26, 0.5);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 2px;
+    padding: 12px 16px;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.terminal-input:focus {
+    border-color: #00FFFF;
+    background: rgba(0, 255, 255, 0.03);
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.15);
+}
+
+.terminal-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* Radio wave button */
+.send-signal-btn {
+    background: transparent;
+    border: 1px solid #00FFFF;
+    color: #00FFFF;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 12px 32px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    align-self: flex-start;
+    box-sizing: border-box;
+}
+
+.send-signal-btn:hover {
+    background: rgba(0, 255, 255, 0.08);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.35);
+    color: #ffffff;
+}
+
+.send-signal-btn i {
+    font-size: 14px;
+}
+
+@media (max-width: 576px) {
+    .send-signal-btn {
+        width: 100%;
+    }
+}
+
+/* ==========================================
+   Boot Sequence Overlay
+   ========================================== */
+.boot-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: #000000;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+/* Skip boot overlay completely if already played in this session */
+.boot-played .boot-overlay {
+    display: none !important;
+}
+
+.boot-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.boot-content {
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.boot-line {
+    color: #00FF00;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-wrap;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.boot-line.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.no-scroll {
+    overflow: hidden !important;
+}
+
+/* ==========================================
+   Custom Cursor & Hover Highlights
+   ========================================== */
+html, body {
+    cursor: url('Images/crosshair.svg') 16 16, auto !important;
+}
+
+/* Make sure all links, buttons, inputs use custom cursor */
+a, button, input, textarea, select, .arsenal-tab, .view-achievements-btn, .open-quest-btn, .inspect-btn, .signal-btn, .send-signal-btn {
+    cursor: url('Images/crosshair.svg') 16 16, pointer !important;
+}
+
+/* 2px cyan border highlight transitions (150ms ease) */
+.hud-panel,
+button,
+.signal-btn,
+.open-quest-btn,
+.inspect-btn,
+.view-achievements-btn,
+.send-signal-btn {
+    border-width: 2px !important;
+    transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease, background-color 150ms ease, color 150ms ease !important;
+}
+
+.hud-panel:hover,
+button:hover,
+.signal-btn:hover,
+.open-quest-btn:hover,
+.inspect-btn:hover,
+.view-achievements-btn:hover,
+.send-signal-btn:hover {
+    border-color: #00FFFF !important;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.45) !important;
+}
+
+/* Adjust corner brackets to align perfectly with 2px borders */
+.hud-panel__body::before {
+    top: -2px !important;
+    left: -2px !important;
+}
+.hud-panel__body::after {
+    top: -2px !important;
+    right: -2px !important;
+}
+.hud-panel__corners::before {
+    bottom: -2px !important;
+    left: -2px !important;
+}
+.hud-panel__corners::after {
+    bottom: -2px !important;
+    right: -2px !important;
 }
