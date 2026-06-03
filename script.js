@@ -332,6 +332,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Battle Terminal Typewriter Sequence
+    const btLines = [
+        { id: 'bt-line-1', text: '> BATTLE_LOG_SYS' },
+        { id: 'bt-line-2', text: 'SECURE CONNECT ESTABLISHED...' },
+        { id: 'bt-line-3', text: 'MIL-01: VIIT SECTOR CLEARED (+2000 XP)' },
+        { id: 'bt-line-4', text: 'MIL-02: INTERNSHIP COMPLETED (+1500 XP)' },
+        { id: 'bt-line-5', text: 'MIL-03: OPERATION: PORTFOLIO ACTIVE...' },
+        { id: 'bt-line-6', text: 'READY' }
+    ];
+
+    btLines.forEach((line, index) => {
+        setTimeout(() => {
+            const el = document.getElementById(line.id);
+            if (el) {
+                if (line.id === 'bt-line-6') {
+                    el.innerHTML = line.text + '<span class="bt-cursor">_</span>';
+                } else {
+                    el.textContent = line.text;
+                }
+                el.classList.add('visible');
+            }
+        }, index * 400); // 400ms delay between each line appearing
+    });
+
     // Audio click controller instantiation & activation
     const audioController = new ClickAudioController();
 

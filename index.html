@@ -558,87 +558,97 @@
                 <!-- ========== 4. BATTLE HISTORY ========== -->
                 <div class="hud-panel" data-label="Battle History" id="battle-history">
                     <div class="hud-panel__corners"></div>
-                    <div class="hud-panel__body" style="position: relative; padding: 10px;">
-                        <svg viewBox="0 0 800 450" class="battle-history-map">
-                            <defs>
-                                <!-- Radar grid pattern -->
-                                <pattern id="radar-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                                    <circle cx="2" cy="2" r="1" fill="rgba(0, 255, 255, 0.05)" />
-                                </pattern>
-                            </defs>
+                    <div class="hud-panel__body" style="padding: 0;">
+                        <div class="battle-history-container">
+                            <div class="battle-history-map-wrapper">
+                                <svg viewBox="0 0 800 320" preserveAspectRatio="xMidYMid meet" class="battle-history-map">
+                                    <defs>
+                                        <!-- Radar grid pattern -->
+                                        <pattern id="radar-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                            <circle cx="2" cy="2" r="1" fill="rgba(0, 255, 255, 0.04)" />
+                                        </pattern>
+                                    </defs>
+                                    
+                                    <!-- Background Grid -->
+                                    <rect width="100%" height="100%" fill="url(#radar-grid)" />
+                                    
+                                    <!-- Lightweight SVG World Map Continents filled with #0D1A2E and stroke="rgba(0,255,255,0.15)" stroke-width="0.5" -->
+                                    <!-- North America -->
+                                    <path class="continent-path" d="M 80 56 L 220 56 L 220 128 L 160 156 L 120 128 Z" fill="#0D1A2E" stroke="rgba(0,255,255,0.15)" stroke-width="0.5" />
+                                    <!-- South America -->
+                                    <path class="continent-path" d="M 160 156 L 200 170 L 180 270 L 150 270 L 130 199 Z" fill="#0D1A2E" stroke="rgba(0,255,255,0.15)" stroke-width="0.5" />
+                                    <!-- Africa -->
+                                    <path class="continent-path" d="M 340 156 L 420 156 L 440 199 L 400 270 L 370 270 L 340 199 Z" fill="#0D1A2E" stroke="rgba(0,255,255,0.15)" stroke-width="0.5" />
+                                    <!-- Eurasia -->
+                                    <path class="continent-path" d="M 300 56 L 680 56 L 680 170 L 520 185 L 450 213 L 340 156 Z" fill="#0D1A2E" stroke="rgba(0,255,255,0.15)" stroke-width="0.5" />
+                                    <!-- Australia -->
+                                    <path class="continent-path" d="M 600 227 L 660 227 L 680 270 L 600 270 Z" fill="#0D1A2E" stroke="rgba(0,255,255,0.15)" stroke-width="0.5" />
+                                    
+                                    <!-- Connecting chronological path (dashed SVG polyline) -->
+                                    <polyline points="380,90 500,170 530,175 510,190 620,120" fill="none" stroke="#00FFFF" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5" />
+                                    
+                                    <!-- Milestone Nodes & Labels -->
+                                    
+                                    <!-- Node 1: Pixel Art Jam 2021 (Western Europe) - COMPLETED -->
+                                    <g class="milestone-node completed">
+                                        <circle cx="380" cy="90" r="6" fill="#00FFFF" />
+                                        <text x="380" y="62" text-anchor="middle" class="map-label-group">
+                                            <tspan class="map-label-name" x="380" dy="0">Pixel Art Jam 2021</tspan>
+                                            <tspan class="map-label-xp" x="380" dy="12">+1,000 XP</tspan>
+                                        </text>
+                                    </g>
+                                    
+                                    <!-- Node 2: Indie Dev Studio Internship (South Asia) - COMPLETED -->
+                                    <g class="milestone-node completed">
+                                        <circle cx="500" cy="170" r="6" fill="#00FFFF" />
+                                        <text x="490" y="152" text-anchor="end" class="map-label-group">
+                                            <tspan class="map-label-name" x="490" dy="0">Indie Dev Studio Internship</tspan>
+                                            <tspan class="map-label-xp" x="490" dy="12">+1,500 XP</tspan>
+                                        </text>
+                                    </g>
+                                    
+                                    <!-- Node 3: Released Cyber Knight on Steam (South Asia Offset) - MILESTONE -->
+                                    <g class="milestone-node milestone">
+                                        <!-- SVG Flag Icon -->
+                                        <path d="M 530 175 L 530 152" stroke="#F4A623" stroke-width="1.5" />
+                                        <path d="M 530 152 L 545 157 L 530 162 Z" fill="#F4A623" />
+                                        <circle cx="530" cy="175" r="6" fill="#F4A623" />
+                                        <text x="548" y="160" text-anchor="start" class="map-label-group">
+                                            <tspan class="map-label-name" x="548" dy="0">Released Cyber Knight</tspan>
+                                            <tspan class="map-label-xp" x="548" dy="12">+3,000 XP</tspan>
+                                        </text>
+                                    </g>
+                                    
+                                    <!-- Node 4: Game Dev Mage (Active) - ACTIVE -->
+                                    <g class="milestone-node active">
+                                        <circle cx="510" cy="190" r="11" class="node-ring-active" />
+                                        <circle cx="510" cy="190" r="6" class="node-dot-active" fill="#F4A623" />
+                                        <text x="510" y="218" text-anchor="middle" class="map-label-group">
+                                            <tspan class="map-label-name" x="510" dy="0">Game Dev Mage (Active)</tspan>
+                                            <tspan class="map-label-xp" x="510" dy="12">+2,000 XP</tspan>
+                                            <tspan class="map-label-badge" x="510" dy="12">[ACTIVE QUEST]</tspan>
+                                        </text>
+                                    </g>
+                                    
+                                    <!-- Node 5: Lead Architect (East Asia) - UPCOMING -->
+                                    <g class="milestone-node upcoming">
+                                        <circle cx="620" cy="120" r="6" fill="none" stroke="#666666" stroke-width="1.5" stroke-dasharray="2,2" />
+                                        <text x="620" y="92" text-anchor="middle" class="map-label-group">
+                                            <tspan class="map-label-name" x="620" dy="0" fill="#888888">Lead Architect</tspan>
+                                            <tspan class="map-label-xp" x="620" dy="12" fill="#666666">+5,000 XP</tspan>
+                                        </text>
+                                    </g>
+                                </svg>
+                            </div>
                             
-                            <!-- Background Grid -->
-                            <rect width="100%" height="100%" fill="url(#radar-grid)" />
-                            
-                            <!-- Geometric Continent Outlines (Tactical Map) -->
-                            <!-- North America -->
-                            <path class="continent-path" d="M 80 80 L 220 80 L 220 180 L 160 220 L 120 180 Z" />
-                            <!-- South America -->
-                            <path class="continent-path" d="M 160 220 L 200 240 L 180 380 L 150 380 L 130 280 Z" />
-                            <!-- Africa -->
-                            <path class="continent-path" d="M 340 220 L 420 220 L 440 280 L 400 380 L 370 380 L 340 280 Z" />
-                            <!-- Eurasia -->
-                            <path class="continent-path" d="M 300 80 L 680 80 L 680 240 L 520 260 L 450 300 L 340 220 Z" />
-                            <!-- Australia -->
-                            <path class="continent-path" d="M 600 320 L 660 320 L 680 380 L 600 380 Z" />
-                            
-                            <!-- Chronological Path Connections -->
-                            <path class="milestone-path" d="M 450 230 L 400 270 L 500 250 L 600 180" />
-                            
-                            <!-- MILESTONE NODES -->
-                            
-                            <!-- Milestone 1: Pune (BTech) - Completed -->
-                            <g class="milestone-node completed">
-                                <circle cx="450" cy="230" r="12" class="node-ring" />
-                                <circle cx="450" cy="230" r="6" class="node-dot" />
-                                <!-- SVG Flag Icon -->
-                                <path d="M 450 230 L 450 210" stroke="#00FFFF" stroke-width="1.5" />
-                                <path d="M 450 210 L 465 215 L 450 220 Z" fill="#00FFFF" />
-                                
-                                <text x="450" y="252" class="node-label" text-anchor="middle">BTech CE (VIIT)</text>
-                                <text x="450" y="265" class="node-xp" text-anchor="middle">+2,000 XP</text>
-                            </g>
-                            
-                            <!-- Milestone 2: Internship - Completed -->
-                            <g class="milestone-node completed">
-                                <circle cx="400" cy="270" r="12" class="node-ring" />
-                                <circle cx="400" cy="270" r="6" class="node-dot" />
-                                <!-- SVG Flag Icon -->
-                                <path d="M 400 270 L 400 250" stroke="#00FFFF" stroke-width="1.5" />
-                                <path d="M 400 250 L 415 255 L 400 260 Z" fill="#00FFFF" />
-                                
-                                <text x="400" y="292" class="node-label" text-anchor="middle">Game Dev Intern</text>
-                                <text x="400" y="305" class="node-xp" text-anchor="middle">+1,500 XP</text>
-                            </g>
-                            
-                            <!-- Milestone 3: Game Dev Mage (Current) - Current -->
-                            <g class="milestone-node current">
-                                <circle cx="500" cy="250" r="12" class="node-ring" />
-                                <circle cx="500" cy="250" r="6" class="node-dot" />
-                                
-                                <text x="500" y="272" class="node-label" text-anchor="middle">Game Dev Mage</text>
-                                <text x="500" y="285" class="node-xp" text-anchor="middle">Active</text>
-                            </g>
-                            
-                            <!-- Milestone 4: Future Architect - Upcoming -->
-                            <g class="milestone-node upcoming">
-                                <circle cx="600" cy="180" r="6" class="node-dot" />
-                                
-                                <text x="600" y="202" class="node-label" text-anchor="middle">Lead Architect</text>
-                                <text x="600" y="215" class="node-xp" text-anchor="middle">+5,000 XP</text>
-                            </g>
-                        </svg>
-                        
-                        <!-- Terminal Log Overlay -->
-                        <div class="battle-terminal">
-                            <div class="battle-terminal-header">> BATTLE_LOG_SYS</div>
-                            <div class="battle-terminal-body">
-                                <div class="term-line">SECURE CONNECT ESTABLISHED...</div>
-                                <div class="term-line">DOWNLOADING MILITARY RECORDS...</div>
-                                <div class="term-line">MIL-01: VIIT SECTOR CLEARED (+2000 XP)</div>
-                                <div class="term-line">MIL-02: INTERNSHIP COMPLETED (+1500 XP)</div>
-                                <div class="term-line">MIL-03: OPERATION: PORTFOLIO ACTIVE...</div>
-                                <div class="term-line blinking-cursor">READY_</div>
+                            <!-- Bottom terminal log strip (not overlapping, height 80px) -->
+                            <div class="battle-terminal">
+                                <div class="battle-terminal-line" id="bt-line-1"></div>
+                                <div class="battle-terminal-line" id="bt-line-2"></div>
+                                <div class="battle-terminal-line" id="bt-line-3"></div>
+                                <div class="battle-terminal-line" id="bt-line-4"></div>
+                                <div class="battle-terminal-line" id="bt-line-5"></div>
+                                <div class="battle-terminal-line" id="bt-line-6"></div>
                             </div>
                         </div>
                     </div>
