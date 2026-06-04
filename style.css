@@ -3569,6 +3569,77 @@ footer p {
     }
 }
 
+/* Terminal Status Display */
+.terminal-status-line {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    min-height: 20px;
+    padding: 0;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+.terminal-status-line:empty {
+    display: none;
+}
+
+/* TRANSMITTING... → cyan with blinking cursor */
+.terminal-status-line.status-transmitting {
+    color: #00FFFF;
+}
+
+.terminal-status-line.status-transmitting::after {
+    content: '_';
+    display: inline-block;
+    animation: statusBlink 0.8s infinite step-end;
+    margin-left: 2px;
+}
+
+/* SIGNAL SENT... → green */
+.terminal-status-line.status-success {
+    color: #00FF88;
+    text-shadow: 0 0 6px rgba(0, 255, 136, 0.5);
+}
+
+/* ERROR:... → amber */
+.terminal-status-line.status-error {
+    color: #F4A623;
+    text-shadow: 0 0 6px rgba(244, 166, 35, 0.4);
+}
+
+@keyframes statusBlink {
+    from, to { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* Send button — disabled / transmitting state */
+.send-signal-btn:disabled,
+.send-signal-btn.is-sending {
+    opacity: 0.55;
+    pointer-events: none;
+    cursor: not-allowed !important;
+    border-color: rgba(0, 255, 255, 0.3);
+    color: rgba(0, 255, 255, 0.6);
+}
+
+/* Pulse animation on radio wave icon when NOT sending */
+.send-signal-btn:not(.is-sending) .signal-icon {
+    animation: signalPulse 2s infinite ease-in-out;
+}
+
+@keyframes signalPulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 0 0px transparent;
+    }
+    50% {
+        transform: scale(1.15);
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+    }
+}
+
 /* ==========================================
    Boot Sequence Overlay
    ========================================== */

@@ -51,30 +51,37 @@
                         </div>
                     </div>
 
-                    <!-- Contact Form -->
-                    <form class="contact-terminal-form" action="https://formspree.io/f/mqkrbglg" method="POST">
+                    <!-- Contact Form (EmailJS) -->
+                    <form class="contact-terminal-form" id="contact-form" onsubmit="return false;">
                         <div class="terminal-label">CONTACT TERMINAL</div>
-                        
+
+                        <div class="terminal-input-group">
+                            <span class="input-prompt">&gt; CALLSIGN:</span>
+                            <input type="text" id="sender-name" name="from_name" required class="terminal-input" placeholder="[IDENTIFIER]">
+                        </div>
+
+                        <div class="terminal-input-group">
+                            <span class="input-prompt">&gt; FREQUENCY (EMAIL):</span>
+                            <input type="email" id="sender-email" name="reply_to" required class="terminal-input" placeholder="[SECURE_ROUTE]">
+                        </div>
+
                         <div class="terminal-screen-wrapper">
                             <div class="terminal-prompt-line">
+                                <span class="terminal-prompt-char">&gt; TRANSMISSION:</span>
+                            </div>
+                            <div class="terminal-prompt-line">
                                 <span class="terminal-prompt-char">&gt;</span>
-                                <textarea class="terminal-textarea" name="message" required placeholder="INCOMING TRANSMISSION... // SEND A SIGNAL // ENTER MESSAGE BELOW:" rows="5"></textarea>
+                                <textarea class="terminal-textarea" id="sender-message" name="message" required placeholder="ENTER MESSAGE BELOW..." rows="5"></textarea>
                             </div>
                             <div class="terminal-cursor-line"><span class="textarea-blinking-cursor">_</span></div>
                         </div>
 
-                        <div class="terminal-input-group">
-                            <span class="input-prompt">&gt; ENTER SENDER IDENTIFIER (NAME):</span>
-                            <input type="text" name="name" required class="terminal-input" placeholder="[IDENTIFIER]">
-                        </div>
+                        <!-- Terminal Status Display -->
+                        <div class="terminal-status-line" id="terminal-status"></div>
 
-                        <div class="terminal-input-group">
-                            <span class="input-prompt">&gt; ENTER TRANSMISSION SECURE ROUTE (EMAIL):</span>
-                            <input type="email" name="email" required class="terminal-input" placeholder="[SECURE_ROUTE]">
-                        </div>
-
-                        <button type="submit" class="send-signal-btn">
-                            <i class="fas fa-broadcast-tower"></i> SEND SIGNAL
+                        <button type="button" class="send-signal-btn" id="send-signal-btn" onclick="handleSendSignal()">
+                            <i class="fas fa-broadcast-tower signal-icon"></i>
+                            <span class="btn-text">((·)) SEND SIGNAL</span>
                         </button>
                     </form>
                     
@@ -113,6 +120,8 @@
         </div>
     </footer>
 
+    <!-- EmailJS SDK (CDN) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <!-- JavaScript -->
     <script src="script.js"></script>
 </body>

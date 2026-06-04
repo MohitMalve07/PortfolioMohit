@@ -1,14 +1,89 @@
-document.addEventListener('DOMContentLoaded', function() {
+/* ==========================================
+   EmailJS Configuration
+   Replace these placeholder values with your
+   actual EmailJS credentials from .env
+   ========================================== */
+const EMAILJS_CONFIG = {
+    serviceId: 'service_afvnpre',   // VITE_EMAILJS_SERVICE_ID
+    templateId: 'template_9lz4mhl',  // VITE_EMAILJS_TEMPLATE_ID
+    publicKey: 'jVFfeT96tjXULJPHw'    // VITE_EMAILJS_PUBLIC_KEY
+};
+
+/* ==========================================
+   EmailJS — Send Signal Handler
+   ========================================== */
+function handleSendSignal() {
+    const nameEl = document.getElementById('sender-name');
+    const emailEl = document.getElementById('sender-email');
+    const messageEl = document.getElementById('sender-message');
+    const statusEl = document.getElementById('terminal-status');
+    const btnEl = document.getElementById('send-signal-btn');
+
+    if (!nameEl || !emailEl || !messageEl || !statusEl || !btnEl) return;
+
+    const senderName = nameEl.value.trim();
+    const senderEmail = emailEl.value.trim();
+    const message = messageEl.value.trim();
+
+    // Validation
+    if (!senderName || !senderEmail || !message) {
+        setTerminalStatus(statusEl, 'ERROR: ALL FIELDS REQUIRED BEFORE TRANSMITTING.', 'error');
+        return;
+    }
+
+    // Disable button and show transmitting state
+    btnEl.disabled = true;
+    btnEl.querySelector('.btn-text').textContent = 'TRANSMITTING...';
+    btnEl.classList.add('is-sending');
+    setTerminalStatus(statusEl, 'TRANSMITTING SIGNAL...', 'transmitting');
+
+    emailjs.send(
+        EMAILJS_CONFIG.serviceId,
+        EMAILJS_CONFIG.templateId,
+        {
+            from_name: senderName,
+            reply_to: senderEmail,
+            message: message
+        },
+        EMAILJS_CONFIG.publicKey
+    ).then(function () {
+        setTerminalStatus(statusEl, 'SIGNAL SENT. TRANSMISSION COMPLETE. \u2713', 'success');
+        nameEl.value = '';
+        emailEl.value = '';
+        messageEl.value = '';
+    }).catch(function () {
+        setTerminalStatus(statusEl, 'ERROR: SIGNAL LOST. CHECK FREQUENCY AND RETRY.', 'error');
+    }).finally(function () {
+        btnEl.disabled = false;
+        btnEl.querySelector('.btn-text').textContent = '((\u00b7)) SEND SIGNAL';
+        btnEl.classList.remove('is-sending');
+    });
+}
+
+function setTerminalStatus(el, text, type) {
+    el.textContent = text;
+    el.className = 'terminal-status-line'; // reset classes
+    if (type === 'transmitting') {
+        el.classList.add('status-transmitting');
+    } else if (type === 'success') {
+        el.classList.add('status-success');
+    } else if (type === 'error') {
+        el.classList.add('status-error');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+
     // Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
-    
+
     if (hamburger && navLinks) {
-        hamburger.addEventListener('click', function() {
+        hamburger.addEventListener('click', function () {
             hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
         });
-        
+
         // Close mobile menu when a link is clicked
         document.querySelectorAll('.nav-links li a:not(.dropdown-toggle)').forEach(link => {
             link.addEventListener('click', () => {
@@ -17,12 +92,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
+
     // Dropdown Menu Toggle for Mobile
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    
+
     dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
+        toggle.addEventListener('click', function (e) {
             // Only prevent default on mobile view
             if (window.innerWidth <= 992) {
                 e.preventDefault();
@@ -31,10 +106,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Header Scroll Effect
     const header = document.querySelector('.fixed-header');
-    
+
     if (header) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -294,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function() {
             bootOverlay.remove();
         } else {
             document.body.classList.add('no-scroll');
-            
+
             const bootLines = [
                 { id: 'boot-line-1', text: 'MOHIT MALVE OS v2.3' },
                 { id: 'boot-line-2', text: 'INITIALIZING MODULES...' },
@@ -317,7 +392,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 bootOverlay.classList.add('fade-out');
                 document.body.classList.remove('no-scroll');
-                
+
                 try {
                     sessionStorage.setItem('boot-played', 'true');
                 } catch (e) {
@@ -425,10 +500,10 @@ class ClickAudioController {
             try {
                 const source = this.audioCtx.createBufferSource();
                 const gainNode = this.audioCtx.createGain();
-                
+
                 source.buffer = this.audioBuffer;
                 gainNode.gain.setValueAtTime(0.3, this.audioCtx.currentTime);
-                
+
                 source.connect(gainNode);
                 gainNode.connect(this.audioCtx.destination);
                 source.start(0);
@@ -445,21 +520,21 @@ class ClickAudioController {
         try {
             const osc = this.audioCtx.createOscillator();
             const gain = this.audioCtx.createGain();
-            
+
             osc.connect(gain);
             gain.connect(this.audioCtx.destination);
-            
+
             const now = this.audioCtx.currentTime;
-            
+
             // Rapid pitch fall (sine wave chirp)
             osc.type = 'sine';
             osc.frequency.setValueAtTime(1400, now);
             osc.frequency.exponentialRampToValueAtTime(400, now + 0.06);
-            
+
             // Fast volume decay
             gain.gain.setValueAtTime(0.08, now);
             gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-            
+
             osc.start(now);
             osc.stop(now + 0.07);
         } catch (e) {
