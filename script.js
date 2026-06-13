@@ -447,12 +447,286 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event delegation for playing audio on interactive element clicks
     document.addEventListener('click', (e) => {
-        const interactive = e.target.closest('a, button, input[type="submit"], input[type="button"], .arsenal-tab, .view-achievements-btn, .open-quest-btn, .inspect-btn, .signal-btn');
+        const interactive = e.target.closest('a, button, input[type="submit"], input[type="button"], .arsenal-tab, .view-achievements-btn, .open-quest-btn, .inspect-btn, .signal-btn, .quest-tab');
         if (interactive) {
             audioController.play();
         }
     });
+
+    // ==========================================
+    // Quest Log — Tab Filtering & Dynamic Cards
+    // ==========================================
+    const questProjects = [
+        // ——— GAME DEV ———
+        {
+            category: 'gamedev',
+            title: '3D Chess Game',
+            image: 'Images/Chess.png',
+            isPrimary: true,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 4,
+            objective: 'Develop a fully interactive 3D Chess Game prototype featuring responsive controls, dynamic board states, and standard chess logic.',
+            techStack: ['Unity', 'C#', '3D Math'],
+            reward: '800 XP',
+            statusLine: 'Playable prototype hosted on itch.io.',
+            link: 'https://mtgking.itch.io/chessprototype',
+            embedSrc: 'https://itch.io/embed/3884696'
+        },
+        {
+            category: 'gamedev',
+            title: 'Endless Runner',
+            image: 'Images/EndlessRunner.png',
+            isPrimary: false,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 2,
+            objective: 'Build a 2D side-scrolling runner featuring procedurally spawned obstacles, score-based multipliers, and high-score saving.',
+            techStack: ['Unity', 'C#', 'WebGL'],
+            reward: '300 XP',
+            statusLine: 'Web build live on Unity Play portal.',
+            link: 'https://play.unity.com/en/games/3e4067eb-f077-4a0f-8563-b7481fb8322e/webgl-builds',
+            embedSrc: null
+        },
+        {
+            category: 'gamedev',
+            title: 'Flappy Bird',
+            image: 'Images/flappybird.png',
+            isPrimary: false,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 1,
+            objective: 'Recreate classic arcade gameplay mechanics in 2D with parallax scrolling backgrounds, physics collision, and simple tap inputs.',
+            techStack: ['Unity', 'C#'],
+            reward: '150 XP',
+            statusLine: 'Micro-project completed. Playable on itch.io.',
+            link: 'https://mtgking.itch.io/fb',
+            embedSrc: 'https://itch.io/embed/2837753'
+        },
+        {
+            category: 'gamedev',
+            title: 'Zombie Shooter',
+            image: 'Images/ZombieShooter.png',
+            isPrimary: false,
+            status: 'in-progress',
+            statusText: '[IN PROGRESS]',
+            stars: 3,
+            objective: 'Develop a fast-paced zombie arena shooter prototype incorporating basic enemy AI behaviors, projectile physics, and particle effects.',
+            techStack: ['Unity', 'C#'],
+            reward: '450 XP',
+            statusLine: 'Prototype active. Open to play alpha version.',
+            link: 'https://yourusername.itch.io/3d-tank-shooter',
+            embedSrc: null
+        },
+        {
+            category: 'gamedev',
+            title: 'Kart Racing Game',
+            image: 'Images/Kart.png',
+            isPrimary: false,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 3,
+            objective: 'Construct a 3D racing game prototype with modular physics-based vehicle controllers, lap tracking, and arcade visual elements.',
+            techStack: ['Unity', 'C#', 'Physics'],
+            reward: '500 XP',
+            statusLine: 'Playable game build hosted on itch.io.',
+            link: 'https://mtgking.itch.io/kartinggame',
+            embedSrc: 'https://itch.io/embed/4669996'
+        },
+        // ——— AI / ML ———
+        {
+            category: 'aiml',
+            title: 'Brain Tumor Detection',
+            image: 'Images/BrainTumor.png',
+            isPrimary: true,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 5,
+            objective: 'Train and deploy a deep learning model to accurately identify and segment brain tumors in medical MRI scans with high precision.',
+            techStack: ['Python', 'PyTorch', 'OpenCV'],
+            reward: '900 XP',
+            statusLine: 'GitHub repository live with source and model.',
+            link: 'https://github.com/MohitMalve07/BrainTumorDetection',
+            embedSrc: null
+        },
+        {
+            category: 'aiml',
+            title: 'Diet Planner & Recipe Gen',
+            image: 'Images/DietPlanner.png',
+            isPrimary: true,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 5,
+            objective: 'Design a web application generating personalized meal plans and recipes leveraging AI based on health profiles and calorie goals.',
+            techStack: ['Next.js', 'Python', 'Flask', 'OpenAI API'],
+            reward: '1,000 XP',
+            statusLine: 'Publication published. Live web app deployed.',
+            link: 'https://recipe-generator-orpin.vercel.app/',
+            embedSrc: null
+        },
+        {
+            category: 'aiml',
+            title: 'AI Resume Parser',
+            image: 'Images/ResumeParser.png',
+            isPrimary: false,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 4,
+            objective: 'Build an intelligent utility to extract and categorize candidate skills, experience, and contact data from resume PDFs.',
+            techStack: ['Next.js', 'Tailwind', 'HuggingFace'],
+            reward: '750 XP',
+            statusLine: 'Fully functional parsing tool online.',
+            link: 'https://resume-parser-gray.vercel.app/',
+            embedSrc: null
+        }
+    ];
+
+    // Track currently expanded card so only one can be open at a time
+    let currentlyExpandedCard = null;
+
+    /**
+     * Build a quest card DOM element from a project data object.
+     */
+    function buildQuestCard(project) {
+        const categoryLabel = project.category === 'gamedev' ? 'GAME DEV QUEST' : 'AI / ML QUEST';
+        const starsHtml = Array.from({ length: 5 }, (_, i) =>
+            `<i class="fas fa-star star${i >= project.stars ? ' empty' : ''}"></i>`
+        ).join('');
+        const techPillsHtml = project.techStack.map(t => `<span class="quest-tech-pill">${t}</span>`).join('');
+
+        // Determine button HTML
+        let actionHtml;
+        if (project.embedSrc) {
+            actionHtml = `<button class="play-now-btn" data-embed-src="${project.embedSrc}">▶  PLAY NOW</button>`;
+        } else {
+            actionHtml = `<a href="${project.link}" target="_blank" class="open-quest-btn">OPEN QUEST</a>`;
+        }
+
+        // Embed wrapper (always present for embeddable cards, hidden by default)
+        const embedHtml = project.embedSrc
+            ? `<div class="quest-embed-wrapper">
+                   <iframe src="${project.embedSrc}" width="100%" height="167" frameborder="0" loading="lazy"></iframe>
+               </div>`
+            : '';
+
+        const card = document.createElement('div');
+        card.className = `quest-card${project.isPrimary ? ' primary-quest' : ''} quest-card--entering`;
+        card.innerHTML = `
+            <div class="quest-card-image-wrapper">
+                <img src="${project.image}" alt="${project.title}" class="quest-card-image">
+                <div class="quest-card-image-overlay"></div>
+            </div>
+            <div class="quest-card-header">
+                <span class="quest-card-label">${categoryLabel}</span>
+                <span class="quest-status-badge ${project.status}">${project.statusText}</span>
+            </div>
+            <h3 class="quest-card-title">${project.title}</h3>
+            <div class="quest-difficulty">${starsHtml}</div>
+            <p class="quest-objective">${project.objective}</p>
+            <div class="quest-tech-section">
+                <span class="quest-tech-title">TECH STACK</span>
+                <div class="quest-tech-pills">${techPillsHtml}</div>
+            </div>
+            <div class="quest-reward-line">REWARD: <span class="quest-reward-val">${project.reward}</span></div>
+            <div class="quest-status-line">STATUS: <span class="quest-status-val">${project.statusLine}</span></div>
+            ${actionHtml}
+            ${embedHtml}
+        `;
+
+        // Attach toggle logic for embeddable cards
+        if (project.embedSrc) {
+            const btn = card.querySelector('.play-now-btn');
+            const embedWrapper = card.querySelector('.quest-embed-wrapper');
+
+            btn.addEventListener('click', () => {
+                const isExpanded = card.classList.contains('quest-card--expanded');
+
+                if (isExpanded) {
+                    // Collapse this card
+                    card.classList.remove('quest-card--expanded');
+                    btn.textContent = '▶  PLAY NOW';
+                    currentlyExpandedCard = null;
+                } else {
+                    // Auto-collapse any previously expanded card
+                    if (currentlyExpandedCard && currentlyExpandedCard !== card) {
+                        currentlyExpandedCard.classList.remove('quest-card--expanded');
+                        const prevBtn = currentlyExpandedCard.querySelector('.play-now-btn');
+                        if (prevBtn) prevBtn.textContent = '▶  PLAY NOW';
+                    }
+
+                    // Expand this card
+                    card.classList.add('quest-card--expanded');
+                    btn.textContent = '■  CLOSE GAME';
+                    currentlyExpandedCard = card;
+
+                    // Smooth scroll into view
+                    setTimeout(() => {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 50);
+                }
+            });
+        }
+
+        return card;
+    }
+
+    /**
+     * Render quest cards filtered by category into the scroll container.
+     */
+    function renderQuestCards(category) {
+        const container = document.getElementById('quest-scroll-container');
+        if (!container) return;
+
+        // Reset expanded state
+        currentlyExpandedCard = null;
+
+        // Clear existing cards
+        container.innerHTML = '';
+
+        // Filter and render
+        const filtered = questProjects.filter(p => p.category === category);
+        filtered.forEach(project => {
+            container.appendChild(buildQuestCard(project));
+        });
+
+        // Reset scroll position
+        container.scrollLeft = 0;
+    }
+
+    // Quest tab click handling
+    const questTabButtons = document.querySelectorAll('.quest-tab');
+    const questHeading = document.getElementById('quest-section-heading');
+
+    if (questTabButtons.length > 0) {
+        questTabButtons.forEach(tab => {
+            tab.addEventListener('click', () => {
+                if (tab.classList.contains('active')) return;
+
+                // Update active tab
+                questTabButtons.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const category = tab.dataset.category;
+
+                // Animate heading change
+                if (questHeading) {
+                    questHeading.style.opacity = '0';
+                    setTimeout(() => {
+                        questHeading.textContent = category === 'gamedev' ? 'GAME DEV QUESTS' : 'AI / ML QUESTS';
+                        questHeading.style.opacity = '1';
+                    }, 150);
+                }
+
+                // Render filtered cards
+                renderQuestCards(category);
+            });
+        });
+
+        // Initial render — default to GAME DEV
+        renderQuestCards('gamedev');
+    }
 });
+
 
 /* ==========================================
    Click Audio Controller Class (Web Audio API)

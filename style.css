@@ -2573,6 +2573,73 @@ footer p {
    Quest Log Panel & Card Styles
    ========================================== */
 
+/* Quest Category Tab Switcher */
+.quest-tab-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.quest-tab {
+    background: #0D1526;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    color: rgba(0, 255, 255, 0.5);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    padding: 10px 22px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+    position: relative;
+}
+
+.quest-tab:hover {
+    color: rgba(0, 255, 255, 0.75);
+    border-color: rgba(0, 255, 255, 0.5);
+}
+
+.quest-tab.active {
+    background: rgba(0, 255, 255, 0.12);
+    color: #00FFFF;
+    border-color: #00FFFF;
+}
+
+.quest-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #00FFFF;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+/* Heading fade transition */
+#quest-section-heading {
+    transition: opacity 0.15s ease;
+}
+
+/* Card entrance animation */
+@keyframes questCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quest-card.quest-card--entering {
+    animation: questCardFadeIn 0.2s ease forwards;
+}
+
 /* Container for horizontal scrolling */
 .quest-log-scroll-container {
     display: flex;
@@ -2821,6 +2888,56 @@ footer p {
     background: rgba(0, 255, 255, 0.1);
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.25);
     color: #ffffff;
+}
+
+/* Play Now Button (embeddable cards) */
+.play-now-btn {
+    margin-top: auto;
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #00FFFF;
+    border: 1px solid #00FFFF;
+    color: #0A0E1A;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 10px 0;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-sizing: border-box;
+    transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.play-now-btn:hover {
+    background: rgba(0, 255, 255, 0.85);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+}
+
+/* Embed wrapper — hidden by default, expands via max-height */
+.quest-embed-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    border-top: 0px solid rgba(0, 255, 255, 0);
+    transition: max-height 0.3s ease, border-top 0.3s ease;
+}
+
+.quest-card--expanded .quest-embed-wrapper {
+    max-height: 167px;
+    border-top: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.quest-embed-wrapper iframe {
+    display: block;
+    width: 100%;
+    height: 167px;
+    border: none;
+}
+
+/* Expanded card glow */
+.quest-card--expanded {
+    box-shadow: 0 0 16px rgba(0, 255, 255, 0.25);
 }
 
 /* ==========================================
