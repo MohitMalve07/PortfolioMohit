@@ -460,6 +460,36 @@ document.addEventListener('DOMContentLoaded', function () {
         // ——— GAME DEV ———
         {
             category: 'gamedev',
+            title: 'Zombie Shooter',
+            image: 'Images/ZombieShooter.png',
+            isPrimary: false,
+            status: 'in-progress',
+            statusText: '[IN PROGRESS]',
+            stars: 3,
+            objective: 'Develop a fast-paced zombie arena shooter prototype incorporating basic enemy AI behaviors, projectile physics, and particle effects.',
+            techStack: ['Unity', 'C#'],
+            reward: '450 XP',
+            statusLine: 'Prototype active. Open to play alpha version.',
+            link: 'https://yourusername.itch.io/3d-tank-shooter',
+            embedSrc: null
+        },
+        {
+            category: 'gamedev',
+            title: 'Circuit Circus',
+            image: 'Images/Kart.png',
+            isPrimary: false,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 3,
+            objective: 'Construct a 3D racing game prototype with modular physics-based vehicle controllers, lap tracking, and arcade visual elements.',
+            techStack: ['Unity 6', 'C#', 'Netcode for GameObjects', 'Unity Relay', 'Multiplayer game architecture'],
+            reward: '500 XP',
+            statusLine: 'Playable game build hosted on itch.io.',
+            link: 'https://mtgking.itch.io/kartinggame',
+            embedSrc: 'https://itch.io/embed/4669996'
+        },
+        {
+            category: 'gamedev',
             title: '3D Chess Game',
             image: 'Images/Chess.png',
             isPrimary: true,
@@ -502,36 +532,6 @@ document.addEventListener('DOMContentLoaded', function () {
             statusLine: 'Micro-project completed. Playable on itch.io.',
             link: 'https://mtgking.itch.io/fb',
             embedSrc: 'https://itch.io/embed/2837753'
-        },
-        {
-            category: 'gamedev',
-            title: 'Zombie Shooter',
-            image: 'Images/ZombieShooter.png',
-            isPrimary: false,
-            status: 'in-progress',
-            statusText: '[IN PROGRESS]',
-            stars: 3,
-            objective: 'Develop a fast-paced zombie arena shooter prototype incorporating basic enemy AI behaviors, projectile physics, and particle effects.',
-            techStack: ['Unity', 'C#'],
-            reward: '450 XP',
-            statusLine: 'Prototype active. Open to play alpha version.',
-            link: 'https://yourusername.itch.io/3d-tank-shooter',
-            embedSrc: null
-        },
-        {
-            category: 'gamedev',
-            title: 'Kart Racing Game',
-            image: 'Images/Kart.png',
-            isPrimary: false,
-            status: 'completed',
-            statusText: '[COMPLETED]',
-            stars: 3,
-            objective: 'Construct a 3D racing game prototype with modular physics-based vehicle controllers, lap tracking, and arcade visual elements.',
-            techStack: ['Unity', 'C#', 'Physics'],
-            reward: '500 XP',
-            statusLine: 'Playable game build hosted on itch.io.',
-            link: 'https://mtgking.itch.io/kartinggame',
-            embedSrc: 'https://itch.io/embed/4669996'
         },
         // ——— AI / ML ———
         {
