@@ -460,17 +460,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // ——— GAME DEV ———
         {
             category: 'gamedev',
-            title: 'Zombie Shooter',
-            image: 'Images/ZombieShooter.png',
+            title: 'Zero Breach',
+            image: 'Images/ZeroBreach.png',
             isPrimary: false,
             status: 'in-progress',
-            statusText: '[IN PROGRESS]',
-            stars: 3,
-            objective: 'Develop a fast-paced zombie arena shooter prototype incorporating basic enemy AI behaviors, projectile physics, and particle effects.',
-            techStack: ['Unity', 'C#'],
-            reward: '450 XP',
-            statusLine: 'Prototype active. Open to play alpha version.',
-            link: 'https://yourusername.itch.io/3d-tank-shooter',
+            statusText: '[IN DEVELOPMENT]',
+            stars: 5,
+            objective: '2-player co-op heist. Top-down 3D office/facility map. Players coordinate to avoid/neutralize guards, reach an objective, and extract.',
+            techStack: ['Unity 6', 'C#', 'Unity Relay', 'Cinemachine', 'AI(Alert/Search/Chase behaviors)'],
+            reward: '1000XP',
+            statusLine: 'In Development (Launch date jan 2027)',
+            link: '#',
             embedSrc: null
         },
         {
