@@ -42,11 +42,13 @@
     <!-- Projects Section -->
     <section id="projects" class="section">
         <div class="container">
-            <div class="hud-panel" data-label="Quest Log">
+            <!-- Personal Projects Subsection -->
+            <div class="hud-panel" data-label="Personal Projects" style="margin-bottom: 40px;">
                 <div class="hud-panel__corners"></div>
                 <div class="hud-panel__body">
-                    <h2 class="section-title text-center" id="quest-section-heading" style="margin-top: 0; margin-bottom: 20px; font-family: 'Orbitron', sans-serif; color: #00FFFF; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);">GAME DEV QUESTS</h2>
-
+                    <h2 class="section-title text-center" style="margin-top: 0; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; color: #00FFFF; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);">Personal Projects</h2>
+                    <p class="text-center" style="color: #A0B0C0; font-family: 'Exo 2', sans-serif; margin-bottom: 20px; font-size: 1.05rem; max-width: 800px; margin-left: auto; margin-right: auto;">Projects built independently to explore gameplay programming, multiplayer systems, and software engineering concepts.</p>
+                    
                     <!-- Quest Category Tab Switcher -->
                     <div class="quest-tab-switcher" id="quest-tab-switcher">
                         <button class="quest-tab active" data-category="gamedev" id="tab-gamedev">🎮  GAME DEV</button>
@@ -54,6 +56,19 @@
                     </div>
 
                     <div class="quest-log-scroll-container" id="quest-scroll-container">
+                        <!-- Cards rendered dynamically by script.js -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Internship Projects Subsection -->
+            <div class="hud-panel" data-label="Internship Projects">
+                <div class="hud-panel__corners"></div>
+                <div class="hud-panel__body">
+                    <h2 class="section-title text-center" style="margin-top: 0; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; color: #00FFFF; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);">Internship Projects</h2>
+                    <p class="text-center" style="color: #A0B0C0; font-family: 'Exo 2', sans-serif; margin-bottom: 20px; font-size: 1.05rem; max-width: 800px; margin-left: auto; margin-right: auto;">Games developed as part of professional internships while collaborating with designers, artists, and project stakeholders.</p>
+
+                    <div class="quest-log-scroll-container" id="internship-scroll-container">
                         <!-- Cards rendered dynamically by script.js -->
                     </div>
                 </div>

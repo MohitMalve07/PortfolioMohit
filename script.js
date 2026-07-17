@@ -578,6 +578,22 @@ document.addEventListener('DOMContentLoaded', function () {
             statusLine: 'Fully functional parsing tool online.',
             link: 'https://resume-parser-gray.vercel.app/',
             embedSrc: null
+        },
+        // ——— INTERNSHIP ———
+        {
+            category: 'internship',
+            title: 'The Shopkeeper',
+            image: 'Images/Shopkeeper.png',
+            isPrimary: true,
+            status: 'completed',
+            statusText: '[COMPLETED]',
+            stars: 5,
+            objective: 'An educational Unity game developed during my internship featuring engaging drag-and-drop gameplay mechanics, interactive customer interactions, object placement systems, animations, UI programming, and optimized gameplay flow. Built while collaborating with artists and designers to deliver a polished educational experience.',
+            techStack: ['Unity 6', 'C#', 'Scriptable Objects', 'Animator', 'UI Toolkit / Unity UI', 'Gameplay Programming', 'Mobile Development'],
+            reward: '1500 XP',
+            statusLine: 'Playable game build hosted on itch.io.',
+            link: 'https://mtgking.itch.io/the-shopkeeper',
+            embedSrc: 'https://itch.io/embed/4786918'
         }
     ];
 
@@ -588,7 +604,10 @@ document.addEventListener('DOMContentLoaded', function () {
      * Build a quest card DOM element from a project data object.
      */
     function buildQuestCard(project) {
-        const categoryLabel = project.category === 'gamedev' ? 'GAME DEV QUEST' : 'AI / ML QUEST';
+        let categoryLabel = 'QUEST';
+        if (project.category === 'gamedev') categoryLabel = 'GAME DEV QUEST';
+        else if (project.category === 'aiml') categoryLabel = 'AI / ML QUEST';
+        else if (project.category === 'internship') categoryLabel = 'INTERNSHIP QUEST';
         const starsHtml = Array.from({ length: 5 }, (_, i) =>
             `<i class="fas fa-star star${i >= project.stars ? ' empty' : ''}"></i>`
         ).join('');
@@ -722,9 +741,32 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+    /**
+     * Render internship quest cards into the internship scroll container.
+     */
+    function renderInternshipCards() {
+        const container = document.getElementById('internship-scroll-container');
+        if (!container) return;
+
+        // Clear existing cards
+        container.innerHTML = '';
+
+        // Filter and render
+        const filtered = questProjects.filter(p => p.category === 'internship');
+        filtered.forEach(project => {
+            container.appendChild(buildQuestCard(project));
+        });
+
+        // Reset scroll position
+        container.scrollLeft = 0;
+    }
+
         // Initial render — default to GAME DEV
         renderQuestCards('gamedev');
     }
+
+    // Render internship cards on load
+    renderInternshipCards();
 });
 
 
