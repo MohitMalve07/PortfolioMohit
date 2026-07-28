@@ -67,7 +67,7 @@ The site layout utilizes a Sci-Fi Head-Up Display (HUD) design containing severa
 | :--- | :--- |
 | **[`index.html`](file:///c:/Users/Asus/Documents/GitHub/GameDevML/index.html)** | Core landing dashboard displaying Player Profile, the SVG Quest Map, the interactive Arsenal tabs, Achievements panel, and Signal hub. |
 | **[`projects.html`](file:///c:/Users/Asus/Documents/GitHub/GameDevML/projects.html)** | Project catalog page stylized as a Quest Log displaying details for 8 active quests across Game Dev and AI. |
-| **[`gamedev-projects.html`](file:///c:/Users/Asus/Documents/GitHub/GameDevML/gamedev-projects.html)** | Page detailing game projects (Chess, Karting, Tank Shooter, Flappy Bird, Endless Runner) with direct play options. |
+| **[`gamedev-projects.html`](file:///c:/Users/Asus/Documents/GitHub/GameDevML/gamedev-projects.html)** | Page detailing game projects (Chess, Karting, Tank Shooter) with direct play options. |
 | **[`ai-projects.html`](file:///c:/Users/Asus/Documents/GitHub/GameDevML/ai-projects.html)** | Page highlighting Machine Learning deliverables (Brain Tumor Detection, Diet Planner, Resume Parser) and publishing footprints. |
 | **[`contact.html`](file:///c:/Users/Asus/Documents/GitHub/GameDevML/contact.html)** | Direct contact terminal layout displaying input secure route entries and direct social channels. |
 | **[`script.js`](file:///c:/Users/Asus/Documents/GitHub/GameDevML/script.js)** | Powers the front-end intelligence: typewriter effects, boot sequencing, skill tab transitions, achievement card expansions, scroll actions, and Intersection Observers. |

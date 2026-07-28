@@ -503,36 +503,6 @@ document.addEventListener('DOMContentLoaded', function () {
             link: 'https://mtgking.itch.io/chessprototype',
             embedSrc: 'https://itch.io/embed/3884696'
         },
-        {
-            category: 'gamedev',
-            title: 'Endless Runner',
-            image: 'Images/EndlessRunner.png',
-            isPrimary: false,
-            status: 'completed',
-            statusText: '[COMPLETED]',
-            stars: 2,
-            objective: 'Build a 2D side-scrolling runner featuring procedurally spawned obstacles, score-based multipliers, and high-score saving.',
-            techStack: ['Unity', 'C#', 'WebGL'],
-            reward: '300 XP',
-            statusLine: 'Web build live on Unity Play portal.',
-            link: 'https://play.unity.com/en/games/3e4067eb-f077-4a0f-8563-b7481fb8322e/webgl-builds',
-            embedSrc: null
-        },
-        {
-            category: 'gamedev',
-            title: 'Flappy Bird',
-            image: 'Images/flappybird.png',
-            isPrimary: false,
-            status: 'completed',
-            statusText: '[COMPLETED]',
-            stars: 1,
-            objective: 'Recreate classic arcade gameplay mechanics in 2D with parallax scrolling backgrounds, physics collision, and simple tap inputs.',
-            techStack: ['Unity', 'C#'],
-            reward: '150 XP',
-            statusLine: 'Micro-project completed. Playable on itch.io.',
-            link: 'https://mtgking.itch.io/fb',
-            embedSrc: 'https://itch.io/embed/2837753'
-        },
         // ——— AI / ML ———
         {
             category: 'aiml',
